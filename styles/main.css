@@ -1,12 +1,18 @@
-/* Custom Styles for FlightMaster Pro */
+/* Enhanced Custom Styles for FlightMaster Pro */
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 
 :root {
   --animation-duration: 0.3s;
+  --border-radius: 0.75rem;
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .font-bebas {
   font-family: "Bebas Neue", cursive;
+  letter-spacing: 0.05em;
 }
 
 .font-dmsans {
@@ -17,25 +23,77 @@
 @keyframes float {
   0%,
   100% {
-    transform: translateY(0px);
+    transform: translateY(0px) rotate(0deg);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-10px) rotate(1deg);
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(14, 165, 233, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.8);
+  }
+}
+
+/* Animation classes */
 .float-animation {
   animation: float 3s ease-in-out infinite;
 }
 
-/* Smooth transitions */
-.ticket-type {
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Smooth transitions for all interactive elements */
+.ticket-type,
+.btn,
+.card,
+.navbar * {
   transition: all var(--animation-duration) ease-in-out;
 }
 
 /* Scale animation for interactive elements */
 .scale-125 {
   transform: scale(1.25);
+}
+
+.scale-105 {
+  transform: scale(1.05);
 }
 
 /* Custom button hover effects */
@@ -65,25 +123,12 @@
   left: 100%;
 }
 
-/* Responsive design enhancements */
-@media (max-width: 768px) {
-  .hero-content {
-    flex-direction: column-reverse;
-  }
-
-  .text-5xl {
-    font-size: 3rem !important;
-  }
-
-  .text-7xl {
-    font-size: 4rem !important;
-  }
-}
-
-/* Loading states */
-.loading {
-  opacity: 0.7;
-  pointer-events: none;
+/* Enhanced focus states for accessibility */
+.input:focus,
+.select:focus,
+.textarea:focus {
+  transform: scale(1.02);
+  border-color: hsl(var(--p));
 }
 
 /* Custom scrollbar */
@@ -93,6 +138,7 @@
 
 ::-webkit-scrollbar-track {
   background: hsl(var(--b2));
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -102,4 +148,245 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--pf));
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+  position: relative;
+}
+
+.loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid hsl(var(--p));
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom gradient backgrounds */
+.gradient-primary {
+  background: linear-gradient(135deg, hsl(var(--p)) 0%, hsl(var(--a)) 100%);
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, hsl(var(--a)) 0%, hsl(var(--s)) 100%);
+}
+
+/* Text gradient */
+.text-gradient-primary {
+  background: linear-gradient(135deg, hsl(var(--p)) 0%, hsl(var(--a)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  border-color: hsl(var(--p));
+  box-shadow: var(--shadow-xl);
+}
+
+/* Navbar enhancements */
+.navbar {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.navbar-glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .navbar-glass {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Form enhancements */
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: hsl(var(--bc));
+  transition: all 0.3s ease;
+}
+
+.form-control:focus + .form-label {
+  color: hsl(var(--p));
+  transform: translateY(-2px);
+}
+
+/* Input validation states */
+.input-success {
+  border-color: hsl(var(--su));
+  background-color: rgba(34, 197, 94, 0.05);
+}
+
+.input-error {
+  border-color: hsl(var(--er));
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+/* Ticket counter animations */
+.ticket-counter {
+  transition: all 0.3s ease;
+}
+
+.ticket-counter:active {
+  transform: scale(0.95);
+}
+
+/* Price display animations */
+.price-update {
+  transition: all 0.3s ease;
+}
+
+.price-update.changed {
+  color: hsl(var(--p));
+  font-weight: bold;
+  transform: scale(1.1);
+}
+
+/* Mobile-first responsive design */
+@media (max-width: 768px) {
+  .hero-content {
+    flex-direction: column-reverse;
+    gap: 2rem;
+  }
+
+  .text-5xl {
+    font-size: 2.5rem !important;
+  }
+
+  .text-7xl {
+    font-size: 3rem !important;
+  }
+
+  .card {
+    margin: 0 1rem;
+  }
+
+  .navbar-center {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Print styles */
+@media print {
+  .navbar,
+  .footer,
+  .btn {
+    display: none !important;
+  }
+
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid currentColor;
+  }
+
+  .card {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark theme specific styles */
+[data-theme="dark"] {
+  .bg-gradient-custom {
+    background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  }
+}
+
+/* Custom utility classes */
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.border-gradient {
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(135deg, hsl(var(--p)), hsl(var(--a))) border-box;
+}
+
+[data-theme="dark"] .border-gradient {
+  background: linear-gradient(#1f2937, #1f2937) padding-box,
+    linear-gradient(135deg, hsl(var(--p)), hsl(var(--a))) border-box;
+}
+
+/* Focus visible polyfill */
+.focus-visible {
+  outline: 2px solid hsl(var(--p));
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background-color: hsl(var(--p));
+  color: hsl(var(--pc));
+}
+
+/* Placeholder animations */
+.input::placeholder {
+  transition: all 0.3s ease;
+}
+
+.input:focus::placeholder {
+  opacity: 0.7;
+  transform: translateX(5px);
 }
