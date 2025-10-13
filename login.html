@@ -52,7 +52,43 @@
             <span class="text-accent">Pro</span>
           </a>
         </div>
-        <div class="navbar-end">
+        <div class="navbar-end gap-4">
+          <!-- Theme Toggle -->
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+              <i class="fas fa-palette text-lg"></i>
+            </div>
+            <ul
+              tabindex="0"
+              class="dropdown-content z-[1] menu p-2 shadow-2xl bg-base-200 rounded-box w-52"
+            >
+              <li>
+                <a data-theme="light" class="theme-option font-semibold"
+                  >🌞 Light</a
+                >
+              </li>
+              <li>
+                <a data-theme="dark" class="theme-option font-semibold"
+                  >🌙 Dark</a
+                >
+              </li>
+              <li>
+                <a data-theme="cupcake" class="theme-option font-semibold"
+                  >🧁 Cupcake</a
+                >
+              </li>
+              <li>
+                <a data-theme="bumblebee" class="theme-option font-semibold"
+                  >🐝 Bumblebee</a
+                >
+              </li>
+              <li>
+                <a data-theme="emerald" class="theme-option font-semibold"
+                  >💎 Emerald</a
+                >
+              </li>
+            </ul>
+          </div>
           <a
             href="./signup.html"
             class="btn btn-outline btn-primary font-semibold"
@@ -126,11 +162,29 @@
           <div class="divider my-6">OR CONTINUE WITH</div>
 
           <div class="grid grid-cols-2 gap-4 mb-6">
-            <button class="btn btn-outline btn-lg font-semibold">
+            <button
+              class="btn btn-outline btn-lg font-semibold social-login"
+              data-provider="google"
+            >
               <i class="fab fa-google text-red-500 mr-2"></i>Google
             </button>
-            <button class="btn btn-outline btn-lg font-semibold">
+            <button
+              class="btn btn-outline btn-lg font-semibold social-login"
+              data-provider="facebook"
+            >
               <i class="fab fa-facebook text-blue-600 mr-2"></i>Facebook
+            </button>
+            <button
+              class="btn btn-outline btn-lg font-semibold social-login"
+              data-provider="github"
+            >
+              <i class="fab fa-github text-gray-800 mr-2"></i>GitHub
+            </button>
+            <button
+              class="btn btn-outline btn-lg font-semibold social-login"
+              data-provider="twitter"
+            >
+              <i class="fab fa-twitter text-blue-400 mr-2"></i>Twitter
             </button>
           </div>
 
@@ -157,5 +211,6 @@
     </footer>
 
     <script type="module" src="./js/auth.js"></script>
+    <script type="module" src="./js/theme.js"></script>
   </body>
 </html>

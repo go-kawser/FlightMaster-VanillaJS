@@ -4,21 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FlightMaster Pro | World-Class Flight Booking</title>
-    <!-- Tailwind & DaisyUI -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0/dist/full.css"
       rel="stylesheet"
       type="text/css"
     />
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
       rel="stylesheet"
     />
-    <!-- Custom Styles -->
     <link rel="stylesheet" href="./styles/main.css" />
     <script>
       tailwind.config = {
@@ -41,59 +38,23 @@
   <body
     class="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 font-dmsans"
   >
-    <!-- Enhanced Mega Navbar -->
-    <header
-      class="sticky top-0 z-50 shadow-lg bg-base-100 backdrop-blur-lg bg-opacity-90"
-    >
-      <div class="navbar max-w-7xl mx-auto px-4">
+    <!-- Professional Horizontal Sticky Navbar -->
+    <header class="sticky top-0 z-50 shadow-lg bg-base-100">
+      <nav
+        class="navbar flex justify-between items-center px-4 py-3 max-w-7xl mx-auto"
+      >
         <div class="navbar-start">
-          <!-- Mobile dropdown -->
-          <div class="dropdown lg:hidden">
-            <div tabindex="0" role="button" class="btn btn-ghost">
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                ></path>
-              </svg>
-            </div>
-            <ul
-              tabindex="0"
-              class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li><a href="#home" class="font-semibold text-base">Home</a></li>
-              <li>
-                <a href="#destinations" class="font-semibold text-base"
-                  >Destinations</a
-                >
-              </li>
-              <li>
-                <a href="#deals" class="font-semibold text-base">Hot Deals</a>
-              </li>
-              <li>
-                <a href="#about" class="font-semibold text-base">About Us</a>
-              </li>
-              <li>
-                <a href="#contact" class="font-semibold text-base">Contact</a>
-              </li>
-            </ul>
-          </div>
-          <a class="btn btn-ghost text-xl font-bebas text-3xl text-primary">
+          <a class="text-xl font-bebas text-3xl text-primary cursor-pointer">
             <i class="fas fa-plane mr-2"></i>FlightMaster
             <span class="text-accent">Pro</span>
           </a>
         </div>
 
-        <!-- Desktop Menu -->
+        <!-- Desktop Horizontal Menu -->
         <div class="navbar-center hidden lg:flex">
-          <ul class="menu menu-horizontal px-1 font-medium text-base">
+          <ul
+            class="menu menu-horizontal px-1 font-medium text-base flex items-center space-x-4"
+          >
             <li>
               <a
                 href="#home"
@@ -132,8 +93,8 @@
           </ul>
         </div>
 
-        <div class="navbar-end gap-4">
-          <!-- Theme Selector -->
+        <div class="navbar-end gap-4 flex items-center">
+          <!-- Theme Toggle Button -->
           <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
               <i class="fas fa-palette text-lg"></i>
@@ -142,16 +103,30 @@
               tabindex="0"
               class="dropdown-content z-[1] menu p-2 shadow-2xl bg-base-200 rounded-box w-52"
             >
-              <li><a data-theme="light" class="font-semibold">🌞 Light</a></li>
-              <li><a data-theme="dark" class="font-semibold">🌙 Dark</a></li>
               <li>
-                <a data-theme="cupcake" class="font-semibold">🧁 Cupcake</a>
+                <a data-theme="light" class="theme-option font-semibold"
+                  >🌞 Light</a
+                >
               </li>
               <li>
-                <a data-theme="bumblebee" class="font-semibold">🐝 Bumblebee</a>
+                <a data-theme="dark" class="theme-option font-semibold"
+                  >🌙 Dark</a
+                >
               </li>
               <li>
-                <a data-theme="emerald" class="font-semibold">💎 Emerald</a>
+                <a data-theme="cupcake" class="theme-option font-semibold"
+                  >🧁 Cupcake</a
+                >
+              </li>
+              <li>
+                <a data-theme="bumblebee" class="theme-option font-semibold"
+                  >🐝 Bumblebee</a
+                >
+              </li>
+              <li>
+                <a data-theme="emerald" class="theme-option font-semibold"
+                  >💎 Emerald</a
+                >
               </li>
             </ul>
           </div>
@@ -166,7 +141,7 @@
             >Sign Up</a
           >
         </div>
-      </div>
+      </nav>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-8">
@@ -332,7 +307,7 @@
               <div class="form-control mt-6">
                 <button
                   id="bookNowBtn"
-                  class="btn btn-primary text-white font-semibold text-lg transform transition-transform hover:scale-105 duration-300"
+                  class="btn btn-primary text-white text-lg font-semibold py-4 transform transition-transform hover:scale-105 duration-300"
                 >
                   <i class="fas fa-plane-departure mr-2"></i>Book Now
                 </button>
@@ -585,5 +560,6 @@
     <script type="module" src="./js/main.js"></script>
     <script type="module" src="./js/booking.js"></script>
     <script type="module" src="./js/theme.js"></script>
+    <script type="module" src="./js/auth.js"></script>
   </body>
 </html>

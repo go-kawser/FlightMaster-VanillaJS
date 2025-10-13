@@ -62,6 +62,16 @@
   }
 }
 
+@keyframes bounce-subtle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
 /* Animation classes */
 .float-animation {
   animation: float 3s ease-in-out infinite;
@@ -77,6 +87,10 @@
 
 .pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
 }
 
 /* Smooth transitions for all interactive elements */
@@ -129,6 +143,7 @@
 .textarea:focus {
   transform: scale(1.02);
   border-color: hsl(var(--p));
+  outline: none;
 }
 
 /* Custom scrollbar */
@@ -275,6 +290,46 @@
   transform: scale(1.1);
 }
 
+/* Social login button animations */
+.social-login {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.social-login:active {
+  transform: translateY(0);
+}
+
+.social-login.loading {
+  pointer-events: none;
+}
+
+.social-login.loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Theme transition */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+}
+
 /* Mobile-first responsive design */
 @media (max-width: 768px) {
   .hero-content {
@@ -295,7 +350,20 @@
   }
 
   .navbar-center {
-    display: none;
+    display: none !important;
+  }
+
+  /* Mobile menu improvements */
+  .menu-horizontal {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Better touch targets */
+  .btn,
+  .input,
+  .select {
+    min-height: 44px;
   }
 }
 
@@ -306,6 +374,20 @@
 
   .grid-cols-4 {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .text-3xl {
+    font-size: 1.75rem !important;
+  }
+
+  .card-body {
+    padding: 1rem;
   }
 }
 
@@ -331,6 +413,10 @@
 
   .card {
     border: 1px solid currentColor;
+  }
+
+  .input {
+    border: 2px solid currentColor;
   }
 }
 
@@ -389,4 +475,51 @@
 .input:focus::placeholder {
   opacity: 0.7;
   transform: translateX(5px);
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+  background: hsl(var(--su));
+  color: hsl(var(--suc));
+}
+
+.notification.error {
+  background: hsl(var(--er));
+  color: hsl(var(--erc));
+}
+
+.notification.info {
+  background: hsl(var(--in));
+  color: hsl(var(--inc));
+}
+
+/* Loading overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid hsl(var(--p));
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
