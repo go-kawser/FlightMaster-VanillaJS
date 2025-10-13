@@ -38,65 +38,75 @@
   <body
     class="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 font-dmsans"
   >
-    <!-- Navigation -->
+    <!-- Compact Sticky Navbar -->
     <header
-      class="sticky top-0 z-50 shadow-lg bg-base-100 backdrop-blur-lg bg-opacity-90"
+      class="sticky top-0 z-50 shadow-lg bg-base-100/95 backdrop-blur-sm border-b border-base-300"
     >
-      <div class="navbar max-w-7xl mx-auto px-4">
+      <nav
+        class="navbar flex justify-between items-center px-4 py-2 max-w-7xl mx-auto"
+      >
+        <!-- Logo -->
         <div class="navbar-start">
-          <a
-            href="./index.html"
-            class="btn btn-ghost text-xl font-bebas text-3xl text-primary"
-          >
-            <i class="fas fa-plane mr-2"></i>FlightMaster
-            <span class="text-accent">Pro</span>
+          <a href="./index.html" class="flex items-center space-x-2">
+            <i class="fas fa-plane text-primary text-xl"></i>
+            <span class="font-bebas text-2xl text-primary">
+              FlightMaster <span class="text-accent">Pro</span>
+            </span>
           </a>
         </div>
-        <div class="navbar-end gap-4">
+
+        <!-- Right Section -->
+        <div class="navbar-end gap-2 flex items-center">
           <!-- Theme Toggle -->
           <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-              <i class="fas fa-palette text-lg"></i>
+            <div
+              tabindex="0"
+              role="button"
+              class="btn btn-ghost btn-sm btn-circle"
+            >
+              <i class="fas fa-palette text-base"></i>
             </div>
             <ul
               tabindex="0"
-              class="dropdown-content z-[1] menu p-2 shadow-2xl bg-base-200 rounded-box w-52"
+              class="dropdown-content z-[1] menu p-2 shadow-2xl bg-base-200 rounded-box w-48"
             >
               <li>
-                <a data-theme="light" class="theme-option font-semibold"
+                <a data-theme="light" class="theme-option text-sm py-2"
                   >🌞 Light</a
                 >
               </li>
               <li>
-                <a data-theme="dark" class="theme-option font-semibold"
+                <a data-theme="dark" class="theme-option text-sm py-2"
                   >🌙 Dark</a
                 >
               </li>
               <li>
-                <a data-theme="cupcake" class="theme-option font-semibold"
+                <a data-theme="cupcake" class="theme-option text-sm py-2"
                   >🧁 Cupcake</a
                 >
               </li>
               <li>
-                <a data-theme="bumblebee" class="theme-option font-semibold"
+                <a data-theme="bumblebee" class="theme-option text-sm py-2"
                   >🐝 Bumblebee</a
                 >
               </li>
               <li>
-                <a data-theme="emerald" class="theme-option font-semibold"
+                <a data-theme="emerald" class="theme-option text-sm py-2"
                   >💎 Emerald</a
                 >
               </li>
             </ul>
           </div>
+
+          <!-- Auth Button -->
           <a
             href="./signup.html"
-            class="btn btn-outline btn-primary font-semibold"
+            class="btn btn-outline btn-primary btn-sm font-medium text-sm"
           >
-            <i class="fas fa-user-plus mr-2"></i>Sign Up
+            <i class="fas fa-user-plus mr-1"></i>Sign Up
           </a>
         </div>
-      </div>
+      </nav>
     </header>
 
     <main class="min-h-[80vh] flex items-center justify-center px-4 py-8">

@@ -38,93 +38,103 @@
   <body
     class="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 font-dmsans"
   >
-    <!-- Professional Horizontal Sticky Navbar -->
-    <header class="sticky top-0 z-50 shadow-lg bg-base-100">
+    <!-- Compact Sticky Navbar -->
+    <header
+      class="sticky top-0 z-50 shadow-lg bg-base-100/95 backdrop-blur-sm border-b border-base-300"
+    >
       <nav
-        class="navbar flex justify-between items-center px-4 py-3 max-w-7xl mx-auto"
+        class="navbar flex justify-between items-center px-4 py-2 max-w-7xl mx-auto"
       >
+        <!-- Logo -->
         <div class="navbar-start">
-          <a class="text-xl font-bebas text-3xl text-primary cursor-pointer">
-            <i class="fas fa-plane mr-2"></i>FlightMaster
-            <span class="text-accent">Pro</span>
+          <a class="flex items-center space-x-2 cursor-pointer">
+            <i class="fas fa-plane text-primary text-xl"></i>
+            <span class="font-bebas text-2xl text-primary">
+              FlightMaster <span class="text-accent">Pro</span>
+            </span>
           </a>
         </div>
 
-        <!-- Desktop Horizontal Menu -->
+        <!-- Desktop Navigation -->
         <div class="navbar-center hidden lg:flex">
           <ul
-            class="menu menu-horizontal px-1 font-medium text-base flex items-center space-x-4"
+            class="menu menu-horizontal px-1 font-medium text-sm flex items-center space-x-1"
           >
             <li>
               <a
                 href="#home"
-                class="mx-2 hover:text-primary transition-colors duration-300"
+                class="mx-2 hover:text-primary transition-colors duration-200 py-2"
                 >Home</a
               >
             </li>
             <li>
               <a
                 href="#destinations"
-                class="mx-2 hover:text-primary transition-colors duration-300"
+                class="mx-2 hover:text-primary transition-colors duration-200 py-2"
                 >Destinations</a
               >
             </li>
             <li>
               <a
                 href="#deals"
-                class="mx-2 hover:text-primary transition-colors duration-300"
+                class="mx-2 hover:text-primary transition-colors duration-200 py-2"
                 >Hot Deals</a
               >
             </li>
             <li>
               <a
                 href="#about"
-                class="mx-2 hover:text-primary transition-colors duration-300"
-                >About Us</a
+                class="mx-2 hover:text-primary transition-colors duration-200 py-2"
+                >About</a
               >
             </li>
             <li>
               <a
                 href="#contact"
-                class="mx-2 hover:text-primary transition-colors duration-300"
+                class="mx-2 hover:text-primary transition-colors duration-200 py-2"
                 >Contact</a
               >
             </li>
           </ul>
         </div>
 
-        <div class="navbar-end gap-4 flex items-center">
-          <!-- Theme Toggle Button -->
+        <!-- Right Section -->
+        <div class="navbar-end gap-2 flex items-center">
+          <!-- Theme Toggle -->
           <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-              <i class="fas fa-palette text-lg"></i>
+            <div
+              tabindex="0"
+              role="button"
+              class="btn btn-ghost btn-sm btn-circle"
+            >
+              <i class="fas fa-palette text-base"></i>
             </div>
             <ul
               tabindex="0"
-              class="dropdown-content z-[1] menu p-2 shadow-2xl bg-base-200 rounded-box w-52"
+              class="dropdown-content z-[1] menu p-2 shadow-2xl bg-base-200 rounded-box w-48"
             >
               <li>
-                <a data-theme="light" class="theme-option font-semibold"
+                <a data-theme="light" class="theme-option text-sm py-2"
                   >🌞 Light</a
                 >
               </li>
               <li>
-                <a data-theme="dark" class="theme-option font-semibold"
+                <a data-theme="dark" class="theme-option text-sm py-2"
                   >🌙 Dark</a
                 >
               </li>
               <li>
-                <a data-theme="cupcake" class="theme-option font-semibold"
+                <a data-theme="cupcake" class="theme-option text-sm py-2"
                   >🧁 Cupcake</a
                 >
               </li>
               <li>
-                <a data-theme="bumblebee" class="theme-option font-semibold"
+                <a data-theme="bumblebee" class="theme-option text-sm py-2"
                   >🐝 Bumblebee</a
                 >
               </li>
               <li>
-                <a data-theme="emerald" class="theme-option font-semibold"
+                <a data-theme="emerald" class="theme-option text-sm py-2"
                   >💎 Emerald</a
                 >
               </li>
@@ -132,14 +142,18 @@
           </div>
 
           <!-- Auth Buttons -->
-          <a href="./login.html" class="btn btn-ghost font-semibold text-base"
-            >Login</a
-          >
-          <a
-            href="./signup.html"
-            class="btn btn-primary text-white font-semibold text-base"
-            >Sign Up</a
-          >
+          <div class="flex items-center gap-2">
+            <a
+              href="./login.html"
+              class="btn btn-ghost btn-sm font-medium text-sm"
+              >Login</a
+            >
+            <a
+              href="./signup.html"
+              class="btn btn-primary btn-sm text-white font-medium text-sm"
+              >Sign Up</a
+            >
+          </div>
         </div>
       </nav>
     </header>
@@ -160,56 +174,48 @@
               </h2>
 
               <div class="form-control">
-                <label class="label">
-                  <span class="label-text font-semibold text-base"
-                    >Flying From</span
-                  >
+                <label class="label py-1">
+                  <span class="label-text font-semibold">Flying From</span>
                 </label>
                 <input
                   type="text"
                   id="flyingFrom"
                   placeholder="Dhaka, Bangladesh"
-                  class="input input-bordered input-primary focus:input-primary transition-colors text-base"
+                  class="input input-bordered input-primary focus:input-primary transition-colors"
                 />
               </div>
 
               <div class="form-control">
-                <label class="label">
-                  <span class="label-text font-semibold text-base"
-                    >Flying To</span
-                  >
+                <label class="label py-1">
+                  <span class="label-text font-semibold">Flying To</span>
                 </label>
                 <input
                   type="text"
                   id="flyingTo"
                   placeholder="New York, United States"
-                  class="input input-bordered input-primary focus:input-primary transition-colors text-base"
+                  class="input input-bordered input-primary focus:input-primary transition-colors"
                 />
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="form-control">
-                  <label class="label">
-                    <span class="label-text font-semibold text-base"
-                      >Departure</span
-                    >
+                  <label class="label py-1">
+                    <span class="label-text font-semibold">Departure</span>
                   </label>
                   <input
                     type="date"
                     id="departureDate"
-                    class="input input-bordered input-primary focus:input-primary transition-colors text-base"
+                    class="input input-bordered input-primary focus:input-primary transition-colors"
                   />
                 </div>
                 <div class="form-control">
-                  <label class="label">
-                    <span class="label-text font-semibold text-base"
-                      >Return</span
-                    >
+                  <label class="label py-1">
+                    <span class="label-text font-semibold">Return</span>
                   </label>
                   <input
                     type="date"
                     id="returnDate"
-                    class="input input-bordered input-primary focus:input-primary transition-colors text-base"
+                    class="input input-bordered input-primary focus:input-primary transition-colors"
                   />
                 </div>
               </div>
@@ -220,7 +226,7 @@
                   class="ticket-type bg-base-200 p-4 rounded-lg transition-all hover:bg-base-300 border-2 border-transparent hover:border-primary"
                 >
                   <div class="flex justify-between items-center mb-2">
-                    <span class="font-semibold text-base">First Class</span>
+                    <span class="font-semibold">First Class</span>
                     <span class="text-lg font-bold text-primary">$150</span>
                   </div>
                   <div class="flex items-center justify-between">
@@ -253,7 +259,7 @@
                   class="ticket-type bg-base-200 p-4 rounded-lg transition-all hover:bg-base-300 border-2 border-transparent hover:border-secondary"
                 >
                   <div class="flex justify-between items-center mb-2">
-                    <span class="font-semibold text-base">Economy Class</span>
+                    <span class="font-semibold">Economy Class</span>
                     <span class="text-lg font-bold text-secondary">$100</span>
                   </div>
                   <div class="flex items-center justify-between">
@@ -287,11 +293,11 @@
               <div
                 class="bg-base-200 mt-6 p-4 rounded-lg space-y-2 border border-base-300"
               >
-                <div class="flex justify-between text-base">
+                <div class="flex justify-between">
                   <span>Subtotal</span>
                   <span id="subtotalPrice" class="font-semibold">$250</span>
                 </div>
-                <div class="flex justify-between text-base">
+                <div class="flex justify-between">
                   <span>VAT (10%)</span>
                   <span id="vatAmount" class="font-semibold">$25</span>
                 </div>
@@ -307,7 +313,7 @@
               <div class="form-control mt-6">
                 <button
                   id="bookNowBtn"
-                  class="btn btn-primary text-white text-lg font-semibold py-4 transform transition-transform hover:scale-105 duration-300"
+                  class="btn btn-primary text-white font-semibold transform transition-transform hover:scale-105 duration-300"
                 >
                   <i class="fas fa-plane-departure mr-2"></i>Book Now
                 </button>
