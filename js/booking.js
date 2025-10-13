@@ -24,6 +24,23 @@ class FlightBookingSystem {
       passengers: 1,
     };
 
+    this.flightData = {
+      from: [
+        "New York, USA",
+        "London, UK",
+        "Tokyo, Japan",
+        "Sydney, Australia",
+        "Dubai, UAE",
+      ],
+      to: [
+        "Paris, France",
+        "Bangkok, Thailand",
+        "Singapore",
+        "Rome, Italy",
+        "Barcelona, Spain",
+      ],
+    };
+
     this.init();
   }
 
@@ -31,7 +48,9 @@ class FlightBookingSystem {
     this.bindEvents();
     this.calculateTotal();
     this.setupDateValidation();
+    this.setupAutoComplete();
     this.loadSavedData();
+    this.setupFlightSearch();
   }
 
   bindEvents() {
@@ -74,6 +93,206 @@ class FlightBookingSystem {
         this.handleBooking();
       }
     });
+
+    // Flight search events
+    document
+      .getElementById("searchFlights")
+      ?.addEventListener("click", () => this.searchFlights());
+  }
+
+  setupAutoComplete() {
+    // Setup autocomplete for from and to fields
+    this.setupFieldAutoComplete("flyingFrom", this.flightData.from);
+    this.setupFieldAutoComplete("flyingTo", this.flightData.to);
+  }
+
+  setupFieldAutoComplete(fieldId, options) {
+    const field = document.getElementById(fieldId);
+    if (!field) return;
+
+    let list;
+
+    field.addEventListener("input", (e) => {
+      const value = e.target.value.toLowerCase();
+
+      // Remove existing list
+      if (list) {
+        list.remove();
+      }
+
+      if (!value) return;
+
+      // Filter options
+      const filteredOptions = options.filter((option) =>
+        option.toLowerCase().includes(value)
+      );
+
+      if (filteredOptions.length === 0) return;
+
+      // Create suggestion list
+      list = document.createElement("ul");
+      list.className =
+        "autocomplete-list absolute z-10 bg-base-100 border border-base-300 rounded-lg shadow-lg mt-1 w-full max-h-60 overflow-y-auto";
+
+      filteredOptions.forEach((option) => {
+        const item = document.createElement("li");
+        item.className = "px-4 py-2 hover:bg-base-200 cursor-pointer";
+        item.textContent = option;
+        item.addEventListener("click", () => {
+          field.value = option;
+          this.bookingData[fieldId] = option;
+          list.remove();
+          this.validateForm();
+        });
+        list.appendChild(item);
+      });
+
+      field.parentNode.appendChild(list);
+    });
+
+    // Close list when clicking outside
+    document.addEventListener("click", (e) => {
+      if (list && !field.contains(e.target) && !list.contains(e.target)) {
+        list.remove();
+      }
+    });
+  }
+
+  setupFlightSearch() {
+    // Initialize flight search functionality
+    const searchButton = document.getElementById("searchFlights");
+    if (searchButton) {
+      searchButton.addEventListener("click", () => this.performFlightSearch());
+    }
+  }
+
+  performFlightSearch() {
+    if (!this.isFormValid()) {
+      this.showError("Please fill in all required fields");
+      return;
+    }
+
+    this.showLoading("Searching for flights...");
+
+    // Simulate API call
+    setTimeout(() => {
+      this.hideLoading();
+      this.displayFlightResults();
+    }, 2000);
+  }
+
+  displayFlightResults() {
+    // This would display actual flight results from an API
+    const results = this.generateMockFlightResults();
+
+    const resultsContainer = document.getElementById("flightResults");
+    if (resultsContainer) {
+      resultsContainer.innerHTML = this.generateFlightResultsHTML(results);
+      resultsContainer.classList.remove("hidden");
+    }
+  }
+
+  generateMockFlightResults() {
+    return [
+      {
+        airline: "Sky Airlines",
+        flightNumber: "SKY123",
+        departure: "08:00 AM",
+        arrival: "11:00 AM",
+        duration: "3h 00m",
+        price: 350,
+        stops: 0,
+      },
+      {
+        airline: "Global Airways",
+        flightNumber: "GLB456",
+        departure: "12:30 PM",
+        arrival: "04:30 PM",
+        duration: "4h 00m",
+        price: 275,
+        stops: 1,
+      },
+      {
+        airline: "Express Air",
+        flightNumber: "EXP789",
+        departure: "06:00 PM",
+        arrival: "09:30 PM",
+        duration: "3h 30m",
+        price: 420,
+        stops: 0,
+      },
+    ];
+  }
+
+  generateFlightResultsHTML(flights) {
+    return `
+            <div class="space-y-4">
+                <h3 class="text-2xl font-bebas text-primary mb-4">Available Flights</h3>
+                ${flights
+                  .map(
+                    (flight) => `
+                    <div class="card bg-base-100 shadow-lg border border-base-300">
+                        <div class="card-body">
+                            <div class="flex flex-col lg:flex-row justify-between items-center">
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-lg">${
+                                      flight.airline
+                                    }</h4>
+                                    <p class="text-sm text-base-content/70">${
+                                      flight.flightNumber
+                                    }</p>
+                                </div>
+                                <div class="flex-1 text-center">
+                                    <div class="text-lg font-bold">${
+                                      flight.departure
+                                    } - ${flight.arrival}</div>
+                                    <div class="text-sm">${flight.duration} • ${
+                      flight.stops
+                    } stop${flight.stops !== 1 ? "s" : ""}</div>
+                                </div>
+                                <div class="flex-1 text-right">
+                                    <div class="text-2xl font-bold text-primary">$${
+                                      flight.price
+                                    }</div>
+                                    <button class="btn btn-primary btn-sm mt-2" onclick="bookingSystem.selectFlight(${JSON.stringify(
+                                      flight
+                                    ).replace(/"/g, "&quot;")})">
+                                        Select
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+                  )
+                  .join("")}
+            </div>
+        `;
+  }
+
+  selectFlight(flight) {
+    this.selectedFlight = flight;
+    this.showNotification(
+      `Selected ${flight.airline} flight ${flight.flightNumber}`,
+      "success"
+    );
+
+    // Update booking form with selected flight
+    const total = this.calculateFlightTotal();
+    document.getElementById("grandTotal").textContent = `$${total}`;
+  }
+
+  calculateFlightTotal() {
+    const ticketTotal = Object.values(this.tickets).reduce(
+      (sum, ticket) => sum + ticket.count * ticket.price,
+      0
+    );
+
+    const flightPrice = this.selectedFlight ? this.selectedFlight.price : 0;
+    const subtotal = ticketTotal + flightPrice;
+    const vat = Math.round(subtotal * 0.1);
+
+    return subtotal + vat;
   }
 
   handleTicketChange = (type, isIncrease) => {
@@ -199,11 +418,13 @@ class FlightBookingSystem {
       departure: document.getElementById("departureDate")?.value,
       return: document.getElementById("returnDate")?.value,
       tickets: { ...this.tickets },
+      flight: this.selectedFlight,
       subtotal: document.getElementById("subtotalPrice")?.textContent,
       vat: document.getElementById("vatAmount")?.textContent,
       total: document.getElementById("grandTotal")?.textContent,
       timestamp: new Date().toISOString(),
       bookingId: this.generateBookingId(),
+      status: "confirmed",
     };
   }
 
@@ -216,6 +437,7 @@ class FlightBookingSystem {
       this.setLoadingState(false);
       this.showBookingSuccess(bookingData);
       this.saveBooking(bookingData);
+      this.trackBookingEvent("booking_completed", bookingData);
       this.resetForm();
     }, 2000);
   }
@@ -228,9 +450,11 @@ class FlightBookingSystem {
       bookBtn.innerHTML =
         '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
       bookBtn.disabled = true;
+      bookBtn.classList.add("loading");
     } else {
       bookBtn.innerHTML = '<i class="fas fa-plane-departure mr-2"></i>Book Now';
       bookBtn.disabled = false;
+      bookBtn.classList.remove("loading");
     }
   }
 
@@ -239,32 +463,74 @@ class FlightBookingSystem {
     const modal = document.createElement("div");
     modal.className = "modal modal-open";
     modal.innerHTML = `
-            <div class="modal-box transform transition-all duration-500 scale-95 hover:scale-100">
+            <div class="modal-box transform transition-all duration-500 scale-95 hover:scale-100 max-w-2xl">
                 <h3 class="font-bold text-2xl text-success mb-4 flex items-center gap-2">
                     <i class="fas fa-check-circle"></i>
                     Booking Confirmed! 🎉
                 </h3>
-                <div class="space-y-3 mb-6">
-                    <p class="font-semibold">Booking ID: <span class="text-primary">${
-                      bookingData.bookingId
-                    }</span></p>
-                    <p><strong>Route:</strong> ${bookingData.from} → ${
-      bookingData.to
-    }</p>
-                    <p><strong>Departure:</strong> ${new Date(
-                      bookingData.departure
-                    ).toLocaleDateString()}</p>
+                <div class="space-y-4 mb-6">
+                    <div class="bg-base-200 p-4 rounded-lg">
+                        <p class="font-semibold text-lg">Booking ID: <span class="text-primary">${
+                          bookingData.bookingId
+                        }</span></p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="font-semibold">Route</p>
+                            <p>${bookingData.from} → ${bookingData.to}</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Departure</p>
+                            <p>${new Date(
+                              bookingData.departure
+                            ).toLocaleDateString()}</p>
+                        </div>
+                        ${
+                          bookingData.return
+                            ? `
+                        <div>
+                            <p class="font-semibold">Return</p>
+                            <p>${new Date(
+                              bookingData.return
+                            ).toLocaleDateString()}</p>
+                        </div>
+                        `
+                            : ""
+                        }
+                        <div>
+                            <p class="font-semibold">Total</p>
+                            <p class="text-lg font-bold text-primary">${
+                              bookingData.total
+                            }</p>
+                        </div>
+                    </div>
+                    
                     ${
-                      bookingData.return
-                        ? `<p><strong>Return:</strong> ${new Date(
-                            bookingData.return
-                          ).toLocaleDateString()}</p>`
+                      bookingData.flight
+                        ? `
+                    <div class="bg-base-300 p-3 rounded">
+                        <p class="font-semibold">Flight Details</p>
+                        <p>${bookingData.flight.airline} - ${bookingData.flight.flightNumber}</p>
+                        <p>${bookingData.flight.departure} - ${bookingData.flight.arrival}</p>
+                    </div>
+                    `
                         : ""
                     }
-                    <p><strong>Total:</strong> ${bookingData.total}</p>
+                    
+                    <div class="bg-base-200 p-3 rounded">
+                        <p class="font-semibold">Tickets</p>
+                        ${Object.values(bookingData.tickets)
+                          .map((ticket) =>
+                            ticket.count > 0
+                              ? `<p>${ticket.count} × ${ticket.label}</p>`
+                              : ""
+                          )
+                          .join("")}
+                    </div>
                 </div>
-                <div class="modal-action">
-                    <button class="btn btn-primary" onclick="this.closest('.modal').remove()">
+                <div class="modal-action flex gap-2">
+                    <button class="btn btn-primary flex-1" onclick="this.closest('.modal').remove()">
                         <i class="fas fa-check mr-2"></i>Great!
                     </button>
                     <button class="btn btn-outline" onclick="this.closest('.modal').remove(); window.print();">
@@ -284,6 +550,33 @@ class FlightBookingSystem {
     }
   }
 
+  showNotification(message, type = "info") {
+    if (window.flightMasterApp) {
+      window.flightMasterApp.showNotification(message, type);
+    }
+  }
+
+  showLoading(message) {
+    // Create loading overlay
+    const overlay = document.createElement("div");
+    overlay.className = "loading-overlay";
+    overlay.innerHTML = `
+            <div class="bg-base-100 p-6 rounded-lg shadow-xl flex items-center gap-4">
+                <div class="loading-spinner"></div>
+                <span class="text-lg font-semibold">${message}</span>
+            </div>
+        `;
+    overlay.id = "loading-overlay";
+    document.body.appendChild(overlay);
+  }
+
+  hideLoading() {
+    const overlay = document.getElementById("loading-overlay");
+    if (overlay) {
+      overlay.remove();
+    }
+  }
+
   generateBookingId() {
     return (
       "FM" + Date.now() + Math.random().toString(36).substr(2, 9).toUpperCase()
@@ -296,6 +589,11 @@ class FlightBookingSystem {
     );
     bookings.push(bookingData);
     localStorage.setItem("flightmaster-bookings", JSON.stringify(bookings));
+
+    // Also save to user's bookings if logged in
+    if (window.authSystem && window.authSystem.isAuthenticated()) {
+      window.authSystem.addUserBooking(bookingData);
+    }
   }
 
   saveToLocalStorage() {
@@ -355,6 +653,14 @@ class FlightBookingSystem {
       passengers: 1,
     };
 
+    this.selectedFlight = null;
+
+    // Clear flight results
+    const resultsContainer = document.getElementById("flightResults");
+    if (resultsContainer) {
+      resultsContainer.classList.add("hidden");
+    }
+
     this.calculateTotal();
     localStorage.removeItem("flightmaster-draft");
   }
@@ -390,19 +696,55 @@ class FlightBookingSystem {
 
   // Advanced analytics
   trackBookingEvent(event, data) {
-    if (typeof gtag !== "undefined") {
-      gtag("event", event, data);
-    }
-
-    // Custom analytics
+    // Track booking events for analytics
     const analyticsData = {
       event,
       ...data,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
+      screenResolution: `${screen.width}x${screen.height}`,
     };
 
     console.log("Analytics Event:", analyticsData);
+
+    // Save to localStorage for demo purposes
+    const events = JSON.parse(
+      localStorage.getItem("flightmaster-analytics") || "[]"
+    );
+    events.push(analyticsData);
+    localStorage.setItem("flightmaster-analytics", JSON.stringify(events));
+  }
+
+  // Get user's booking history
+  getBookingHistory() {
+    const bookings = JSON.parse(
+      localStorage.getItem("flightmaster-bookings") || "[]"
+    );
+    return bookings.filter(
+      (booking) =>
+        !window.authSystem ||
+        (window.authSystem.isAuthenticated() &&
+          booking.userId === window.authSystem.getCurrentUser()?.userId)
+    );
+  }
+
+  // Cancel booking
+  cancelBooking(bookingId) {
+    const bookings = JSON.parse(
+      localStorage.getItem("flightmaster-bookings") || "[]"
+    );
+    const bookingIndex = bookings.findIndex(
+      (booking) => booking.bookingId === bookingId
+    );
+
+    if (bookingIndex !== -1) {
+      bookings[bookingIndex].status = "cancelled";
+      bookings[bookingIndex].cancelledAt = new Date().toISOString();
+      localStorage.setItem("flightmaster-bookings", JSON.stringify(bookings));
+      return true;
+    }
+
+    return false;
   }
 }
 
