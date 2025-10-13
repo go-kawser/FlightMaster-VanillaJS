@@ -1,118 +1,313 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flight Booking</title>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlightMaster - Book Your Journey</title>
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
-        rel="stylesheet">
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css">
-    <!-- bootstrap icon -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
-</head>
-
-<body>
-    <!--Header and Menu Section-->
-    <header class="container">
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a class="active" href="#">Sign Up</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!--Booking Section-->
-    <main class="main-content container">
-        <div class="booking-form">
-            <h3>Booking Flights</h3>
-            <div class="input-group">
-                <label for="">Flying From</label>
-                <input class="inp-style" type="text" name="" placeholder="Dhake, Bangladesh">
-            </div>
-            <div class="input-group">
-                <label for="">Flying To</label>
-                <input class="inp-style" type="text" name="" placeholder="New York, United States">
-            </div>
-            <div class="inputs">
-                <div class="input-group">
-                    <label" for="">Departure</label>
-                        <input class="inp-style" type="date" name="">
-                </div>
-                <div class="input-group">
-                    <label for="">Return</label>
-                    <input class="inp-style" type="date" name="">
-                </div>
-            </div>
-            <div class="input-group f-class">
-                <div>
-                    <label id="ticket-total" for="">First Class ($150)</label>
-                    <input id="ticket-count" class="inp-style inp-width" type="number" name="" value="1">
-                    <button onclick="handleBuyTicket('ticket', true)" class="btn btn-default button"><i
-                            class="fas fa-plus"></i></button>
-                    <button onclick="handleBuyTicket('ticket', false)" class="btn btn-default button"><i
-                            class="fas fa-minus"></i></button>
-                </div>
-            </div>
-
-            <div class="input-group f-class">
-                <div>
-                    <label id="low-ticket-total" for="">Economy ($100)</label>
-                    <input id="low-ticket-count" class="inp-style inp-width" type="number" name="" value="1">
-                    <button onclick="handleBuyTicket('low-ticket', true)" class="btn btn-default button"><i
-                            class="fas fa-plus"></i></button>
-                    <button onclick="handleBuyTicket('low-ticket', false)" class="btn btn-default button"><i
-                            class="fas fa-minus"></i></button>
-                </div>
-            </div>
-            <div class="calculations">
-                <div class="amount">
-                    <div class="left">
-                        <p>Subtotal</p>
-                    </div>
-                    <div class="right">
-                        <p id="total-price">$00</p>
-                    </div>
-                </div>
-
-                <div class="amount">
-                    <div class="left">
-                        <p>Charge 10% VAT</p>
-                    </div>
-                    <div class="right">
-                        <p id="tax-amount">$0</p>
-                    </div>
-                </div>
-                <hr>
-                <div class="amount">
-                    <div class="left">
-                        <h4>Total</h4>
-                    </div>
-                    <div class="right">
-                        <p id="grand-total">$00</p>
-                    </div>
-                </div>
-            </div>
-            <button class="btn-style">Book Now</button>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- DaisyUI -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.4.20/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- Font Awesome for legacy icons (optional, using SVGs primarily) -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              roboto: ["Roboto", "sans-serif"],
+              bebas: ["Bebas Neue", "cursive"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.8s ease-out;
+      }
+      .hero {
+        transition: transform 0.3s ease;
+      }
+      .hero:hover {
+        transform: scale(1.01);
+      }
+      input:focus,
+      select:focus {
+        transition: border-color 0.2s ease;
+      }
+    </style>
+  </head>
+  <body class="font-roboto">
+    <!-- Responsive Mega Navbar -->
+    <div class="navbar bg-base-100 shadow-lg sticky top-0 z-50">
+      <div class="navbar-start">
+        <div class="dropdown">
+          <label tabindex="0" class="btn btn-ghost lg:hidden">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h8m-8 6h16"
+              />
+            </svg>
+          </label>
+          <ul
+            tabindex="0"
+            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52"
+          >
+            <li><a href="index.html" class="transition-all">Home</a></li>
+            <li>
+              <details class="transition-all">
+                <summary>About Us</summary>
+                <ul class="p-2 bg-base-100 rounded-box">
+                  <li><a>Company</a></li>
+                  <li><a>Team</a></li>
+                </ul>
+              </details>
+            </li>
+            <li>
+              <details class="transition-all">
+                <summary>Contact</summary>
+                <ul class="p-2 bg-base-100 rounded-box">
+                  <li><a>Email Us</a></li>
+                  <li><a>Call Now</a></li>
+                </ul>
+              </details>
+            </li>
+          </ul>
         </div>
-
-        <div class="booking-content">
-            <h1>discover <br> around the world</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicingelit. Provident voluptatibus quam fuga laborumalias
-                veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise
-                voluptatibus quam</p>
+        <a class="btn btn-ghost normal-case text-xl font-bebas">FlightMaster</a>
+      </div>
+      <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1">
+          <li><a href="index.html" class="transition-all">Home</a></li>
+          <li>
+            <details class="transition-all">
+              <summary>About Us</summary>
+              <ul class="p-2 bg-base-100 rounded-box grid grid-cols-2 gap-2">
+                <li><a>Company Info</a></li>
+                <li><a>Our Team</a></li>
+                <li><a>Careers</a></li>
+                <li><a>Blog</a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="transition-all">
+              <summary>Contact</summary>
+              <ul class="p-2 bg-base-100 rounded-box">
+                <li><a>Email Support</a></li>
+                <li><a>Phone</a></li>
+                <li><a>Live Chat</a></li>
+              </ul>
+            </details>
+          </li>
+        </ul>
+      </div>
+      <div class="navbar-end gap-2">
+        <select
+          id="theme-select"
+          class="select select-bordered select-sm max-w-xs"
+        >
+          <option disabled selected>Theme</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="cupcake">Cupcake</option>
+          <option value="emerald">Emerald</option>
+          <option value="synthwave">Synthwave</option>
+        </select>
+        <div id="auth-section" class="flex gap-2">
+          <a href="signup.html" class="btn btn-outline btn-sm">Sign Up</a>
+          <a href="login.html" class="btn btn-sm">Login</a>
         </div>
-        <!-- javascript link -->
-        <script src="javascript.js"></script>
-        </section>
+        <div id="user-section" class="flex items-center gap-2 hidden">
+          <span class="text-sm">Welcome, <span id="user-name"></span>!</span>
+          <button onclick="logout()" class="btn btn-sm btn-error">
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
 
-        <!--Thank You-->
-</body>
+    <!-- Hero Booking Section -->
+    <div
+      class="hero min-h-screen bg-cover bg-center bg-no-repeat"
+      style="background-image: url('images/bg.png')"
+    >
+      <div class="hero-content flex-col lg:flex-row-reverse gap-8">
+        <div class="text-center lg:text-left max-w-lg animate-fade-in">
+          <h1 class="text-5xl font-bold font-bebas text-white mb-4">
+            Discover<br /><span class="text-primary">Around the World</span>
+          </h1>
+          <p class="py-6 text-white text-lg">
+            Embark on seamless journeys with FlightMaster. From Dhaka to New
+            York, book with ease and explore the skies.
+          </p>
+        </div>
+        <div class="card bg-base-100/90 shadow-2xl w-full max-w-md shrink-0">
+          <div class="card-body p-6">
+            <h2 class="card-title justify-center text-primary">
+              Book Your Flight
+            </h2>
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Flying From</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Dhaka, Bangladesh"
+                class="input input-bordered"
+              />
+            </div>
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Flying To</span>
+              </label>
+              <input
+                type="text"
+                placeholder="New York, United States"
+                class="input input-bordered"
+              />
+            </div>
+            <div class="form-control w-full flex gap-2">
+              <div class="flex-1">
+                <label class="label">
+                  <span class="label-text">Departure</span>
+                </label>
+                <input type="date" class="input input-bordered w-full" />
+              </div>
+              <div class="flex-1">
+                <label class="label">
+                  <span class="label-text">Return</span>
+                </label>
+                <input type="date" class="input input-bordered w-full" />
+              </div>
+            </div>
+            <!-- First Class -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-semibold">First Class ($150)</span>
+              </label>
+              <div class="flex items-center justify-between mb-2">
+                <input
+                  id="first-count"
+                  type="number"
+                  value="1"
+                  min="0"
+                  class="input input-bordered w-20"
+                />
+                <div class="flex gap-1">
+                  <button
+                    id="first-plus"
+                    class="btn btn-circle btn-primary transition-all hover:scale-110"
+                  >
+                    +
+                  </button>
+                  <button
+                    id="first-minus"
+                    class="btn btn-circle btn-secondary transition-all hover:scale-110"
+                  >
+                    -
+                  </button>
+                </div>
+              </div>
+              <p id="first-total" class="text-sm text-base-content/70">
+                First Class ($150) $150
+              </p>
+            </div>
+            <!-- Economy -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-semibold">Economy ($100)</span>
+              </label>
+              <div class="flex items-center justify-between mb-2">
+                <input
+                  id="eco-count"
+                  type="number"
+                  value="1"
+                  min="0"
+                  class="input input-bordered w-20"
+                />
+                <div class="flex gap-1">
+                  <button
+                    id="eco-plus"
+                    class="btn btn-circle btn-primary transition-all hover:scale-110"
+                  >
+                    +
+                  </button>
+                  <button
+                    id="eco-minus"
+                    class="btn btn-circle btn-secondary transition-all hover:scale-110"
+                  >
+                    -
+                  </button>
+                </div>
+              </div>
+              <p id="eco-total" class="text-sm text-base-content/70">
+                Economy ($100) $100
+              </p>
+            </div>
+            <div class="divider"></div>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span>Subtotal</span>
+                <span id="subtotal" class="font-semibold">$250</span>
+              </div>
+              <div class="flex justify-between">
+                <span>10% VAT</span>
+                <span id="vat" class="font-semibold">$25</span>
+              </div>
+              <hr class="my-1" />
+              <div class="flex justify-between text-lg font-bold text-primary">
+                <span>Total</span>
+                <span id="grand">$275</span>
+              </div>
+            </div>
+            <div class="card-actions justify-end mt-4">
+              <button
+                id="book-now"
+                class="btn btn-primary w-full transition-all hover:scale-105"
+              >
+                Book Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <script src="app.js"></script>
+  </body>
 </html>
