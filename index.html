@@ -3,311 +3,357 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FlightMaster - Book Your Journey</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Tailwind CSS -->
+    <title>FlightMaster Pro | Book Your Journey</title>
+    <!-- Tailwind CSS & DaisyUI -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- DaisyUI -->
     <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@4.4.20/dist/full.min.css"
+      href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0/dist/full.css"
       rel="stylesheet"
       type="text/css"
     />
-    <!-- Font Awesome for legacy icons (optional, using SVGs primarily) -->
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
       rel="stylesheet"
     />
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            fontFamily: {
-              roboto: ["Roboto", "sans-serif"],
-              bebas: ["Bebas Neue", "cursive"],
-            },
-          },
-        },
-      };
-    </script>
-    <style>
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .animate-fade-in {
-        animation: fadeIn 0.8s ease-out;
-      }
-      .hero {
-        transition: transform 0.3s ease;
-      }
-      .hero:hover {
-        transform: scale(1.01);
-      }
-      input:focus,
-      select:focus {
-        transition: border-color 0.2s ease;
-      }
-    </style>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="./styles/main.css" />
   </head>
-  <body class="font-roboto">
-    <!-- Responsive Mega Navbar -->
-    <div class="navbar bg-base-100 shadow-lg sticky top-0 z-50">
-      <div class="navbar-start">
-        <div class="dropdown">
-          <label tabindex="0" class="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+  <body
+    class="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 font-dmsans"
+  >
+    <!-- Enhanced Mega Navbar -->
+    <header class="sticky top-0 z-50 shadow-lg bg-base-100">
+      <div class="navbar max-w-7xl mx-auto">
+        <div class="navbar-start">
+          <!-- Mobile dropdown menu -->
+          <div class="dropdown">
+            <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </div>
+            <ul
+              tabindex="0"
+              class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
-          </label>
-          <ul
-            tabindex="0"
-            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52"
+              <li><a href="#home" class="font-semibold">Home</a></li>
+              <li><a href="#about" class="font-semibold">About Us</a></li>
+              <li>
+                <a href="#destinations" class="font-semibold">Destinations</a>
+              </li>
+              <li><a href="#deals" class="font-semibold">Hot Deals</a></li>
+              <li><a href="#contact" class="font-semibold">Contact</a></li>
+            </ul>
+          </div>
+          <a class="btn btn-ghost text-xl font-bebas text-3xl text-primary"
+            >FlightMaster <span class="text-accent">Pro</span></a
           >
-            <li><a href="index.html" class="transition-all">Home</a></li>
+        </div>
+
+        <!-- Desktop menu -->
+        <div class="navbar-center hidden lg:flex">
+          <ul class="menu menu-horizontal px-1 font-medium">
             <li>
-              <details class="transition-all">
-                <summary>About Us</summary>
-                <ul class="p-2 bg-base-100 rounded-box">
-                  <li><a>Company</a></li>
-                  <li><a>Team</a></li>
-                </ul>
-              </details>
+              <a href="#home" class="mx-2 hover:text-primary transition-colors"
+                >Home</a
+              >
             </li>
             <li>
-              <details class="transition-all">
-                <summary>Contact</summary>
-                <ul class="p-2 bg-base-100 rounded-box">
-                  <li><a>Email Us</a></li>
-                  <li><a>Call Now</a></li>
-                </ul>
-              </details>
+              <a href="#about" class="mx-2 hover:text-primary transition-colors"
+                >About Us</a
+              >
+            </li>
+            <li>
+              <a
+                href="#destinations"
+                class="mx-2 hover:text-primary transition-colors"
+                >Destinations</a
+              >
+            </li>
+            <li>
+              <a href="#deals" class="mx-2 hover:text-primary transition-colors"
+                >Hot Deals</a
+              >
+            </li>
+            <li>
+              <a
+                href="#contact"
+                class="mx-2 hover:text-primary transition-colors"
+                >Contact</a
+              >
             </li>
           </ul>
         </div>
-        <a class="btn btn-ghost normal-case text-xl font-bebas">FlightMaster</a>
-      </div>
-      <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal px-1">
-          <li><a href="index.html" class="transition-all">Home</a></li>
-          <li>
-            <details class="transition-all">
-              <summary>About Us</summary>
-              <ul class="p-2 bg-base-100 rounded-box grid grid-cols-2 gap-2">
-                <li><a>Company Info</a></li>
-                <li><a>Our Team</a></li>
-                <li><a>Careers</a></li>
-                <li><a>Blog</a></li>
-              </ul>
-            </details>
-          </li>
-          <li>
-            <details class="transition-all">
-              <summary>Contact</summary>
-              <ul class="p-2 bg-base-100 rounded-box">
-                <li><a>Email Support</a></li>
-                <li><a>Phone</a></li>
-                <li><a>Live Chat</a></li>
-              </ul>
-            </details>
-          </li>
-        </ul>
-      </div>
-      <div class="navbar-end gap-2">
-        <select
-          id="theme-select"
-          class="select select-bordered select-sm max-w-xs"
-        >
-          <option disabled selected>Theme</option>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-          <option value="cupcake">Cupcake</option>
-          <option value="emerald">Emerald</option>
-          <option value="synthwave">Synthwave</option>
-        </select>
-        <div id="auth-section" class="flex gap-2">
-          <a href="signup.html" class="btn btn-outline btn-sm">Sign Up</a>
-          <a href="login.html" class="btn btn-sm">Login</a>
-        </div>
-        <div id="user-section" class="flex items-center gap-2 hidden">
-          <span class="text-sm">Welcome, <span id="user-name"></span>!</span>
-          <button onclick="logout()" class="btn btn-sm btn-error">
-            Logout
-          </button>
-        </div>
-      </div>
-    </div>
 
-    <!-- Hero Booking Section -->
-    <div
-      class="hero min-h-screen bg-cover bg-center bg-no-repeat"
-      style="background-image: url('images/bg.png')"
-    >
-      <div class="hero-content flex-col lg:flex-row-reverse gap-8">
-        <div class="text-center lg:text-left max-w-lg animate-fade-in">
-          <h1 class="text-5xl font-bold font-bebas text-white mb-4">
-            Discover<br /><span class="text-primary">Around the World</span>
-          </h1>
-          <p class="py-6 text-white text-lg">
-            Embark on seamless journeys with FlightMaster. From Dhaka to New
-            York, book with ease and explore the skies.
-          </p>
+        <div class="navbar-end gap-4">
+          <!-- Theme selector -->
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"
+                />
+              </svg>
+            </div>
+            <ul
+              tabindex="0"
+              class="dropdown-content z-[1] menu p-2 shadow-2xl bg-base-200 rounded-box w-52"
+            >
+              <li><a data-theme="light">Light</a></li>
+              <li><a data-theme="dark">Dark</a></li>
+              <li><a data-theme="cupcake">Cupcake</a></li>
+              <li><a data-theme="bumblebee">Bumblebee</a></li>
+              <li><a data-theme="emerald">Emerald</a></li>
+            </ul>
+          </div>
+
+          <!-- Auth buttons -->
+          <a href="./login.html" class="btn btn-ghost font-semibold">Login</a>
+          <a
+            href="./signup.html"
+            class="btn btn-primary text-white font-semibold"
+            >Sign Up</a
+          >
         </div>
-        <div class="card bg-base-100/90 shadow-2xl w-full max-w-md shrink-0">
-          <div class="card-body p-6">
-            <h2 class="card-title justify-center text-primary">
-              Book Your Flight
-            </h2>
-            <div class="form-control">
-              <label class="label">
-                <span class="label-text">Flying From</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Dhaka, Bangladesh"
-                class="input input-bordered"
-              />
-            </div>
-            <div class="form-control">
-              <label class="label">
-                <span class="label-text">Flying To</span>
-              </label>
-              <input
-                type="text"
-                placeholder="New York, United States"
-                class="input input-bordered"
-              />
-            </div>
-            <div class="form-control w-full flex gap-2">
-              <div class="flex-1">
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+      <div class="hero min-h-[80vh]">
+        <div class="hero-content flex-col lg:flex-row-reverse gap-12">
+          <!-- Booking Form Card -->
+          <div
+            class="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100 transform transition-all duration-500 hover:scale-[1.02]"
+          >
+            <div class="card-body">
+              <h2 class="card-title text-2xl font-bebas justify-center mb-2">
+                BOOK YOUR FLIGHT
+              </h2>
+
+              <div class="form-control">
                 <label class="label">
-                  <span class="label-text">Departure</span>
+                  <span class="label-text font-semibold">Flying From</span>
                 </label>
-                <input type="date" class="input input-bordered w-full" />
-              </div>
-              <div class="flex-1">
-                <label class="label">
-                  <span class="label-text">Return</span>
-                </label>
-                <input type="date" class="input input-bordered w-full" />
-              </div>
-            </div>
-            <!-- First Class -->
-            <div class="form-control">
-              <label class="label">
-                <span class="label-text font-semibold">First Class ($150)</span>
-              </label>
-              <div class="flex items-center justify-between mb-2">
                 <input
-                  id="first-count"
-                  type="number"
-                  value="1"
-                  min="0"
-                  class="input input-bordered w-20"
+                  type="text"
+                  id="flyingFrom"
+                  placeholder="Dhaka, Bangladesh"
+                  class="input input-bordered focus:input-primary transition-colors"
                 />
-                <div class="flex gap-1">
-                  <button
-                    id="first-plus"
-                    class="btn btn-circle btn-primary transition-all hover:scale-110"
-                  >
-                    +
-                  </button>
-                  <button
-                    id="first-minus"
-                    class="btn btn-circle btn-secondary transition-all hover:scale-110"
-                  >
-                    -
-                  </button>
+              </div>
+
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-semibold">Flying To</span>
+                </label>
+                <input
+                  type="text"
+                  id="flyingTo"
+                  placeholder="New York, United States"
+                  class="input input-bordered focus:input-primary transition-colors"
+                />
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text font-semibold">Departure</span>
+                  </label>
+                  <input
+                    type="date"
+                    id="departureDate"
+                    class="input input-bordered focus:input-primary transition-colors"
+                  />
+                </div>
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text font-semibold">Return</span>
+                  </label>
+                  <input
+                    type="date"
+                    id="returnDate"
+                    class="input input-bordered focus:input-primary transition-colors"
+                  />
                 </div>
               </div>
-              <p id="first-total" class="text-sm text-base-content/70">
-                First Class ($150) $150
-              </p>
-            </div>
-            <!-- Economy -->
-            <div class="form-control">
-              <label class="label">
-                <span class="label-text font-semibold">Economy ($100)</span>
-              </label>
-              <div class="flex items-center justify-between mb-2">
-                <input
-                  id="eco-count"
-                  type="number"
-                  value="1"
-                  min="0"
-                  class="input input-bordered w-20"
-                />
-                <div class="flex gap-1">
-                  <button
-                    id="eco-plus"
-                    class="btn btn-circle btn-primary transition-all hover:scale-110"
-                  >
-                    +
-                  </button>
-                  <button
-                    id="eco-minus"
-                    class="btn btn-circle btn-secondary transition-all hover:scale-110"
-                  >
-                    -
-                  </button>
+
+              <!-- Ticket Selection with Enhanced UI -->
+              <div class="space-y-4 mt-4">
+                <div
+                  class="ticket-type bg-base-200 p-4 rounded-lg transition-all hover:bg-base-300"
+                >
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="font-semibold">First Class</span>
+                    <span class="text-lg font-bold text-primary">$150</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                      <button
+                        class="btn btn-sm btn-circle btn-outline ticket-decrease"
+                        data-type="first"
+                      >
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <span id="firstClassCount" class="font-semibold mx-2"
+                        >1</span
+                      >
+                      <button
+                        class="btn btn-sm btn-circle btn-outline ticket-increase"
+                        data-type="first"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                    <span id="firstClassTotal" class="font-bold">$150</span>
+                  </div>
+                </div>
+
+                <div
+                  class="ticket-type bg-base-200 p-4 rounded-lg transition-all hover:bg-base-300"
+                >
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="font-semibold">Economy Class</span>
+                    <span class="text-lg font-bold text-secondary">$100</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                      <button
+                        class="btn btn-sm btn-circle btn-outline ticket-decrease"
+                        data-type="economy"
+                      >
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <span id="economyCount" class="font-semibold mx-2"
+                        >1</span
+                      >
+                      <button
+                        class="btn btn-sm btn-circle btn-outline ticket-increase"
+                        data-type="economy"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                    <span id="economyTotal" class="font-bold">$100</span>
+                  </div>
                 </div>
               </div>
-              <p id="eco-total" class="text-sm text-base-content/70">
-                Economy ($100) $100
-              </p>
+
+              <!-- Price Calculation -->
+              <div class="bg-base-200 mt-6 p-4 rounded-lg space-y-2">
+                <div class="flex justify-between">
+                  <span>Subtotal</span>
+                  <span id="subtotalPrice">$250</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>VAT (10%)</span>
+                  <span id="vatAmount">$25</span>
+                </div>
+                <div class="divider my-1"></div>
+                <div class="flex justify-between text-lg font-bold">
+                  <span>Total</span>
+                  <span id="grandTotal">$275</span>
+                </div>
+              </div>
+
+              <div class="form-control mt-6">
+                <button
+                  id="bookNowBtn"
+                  class="btn btn-primary text-white font-semibold transform transition-transform hover:scale-105"
+                >
+                  Book Now <i class="fas fa-plane ml-2"></i>
+                </button>
+              </div>
             </div>
-            <div class="divider"></div>
-            <div class="space-y-3">
-              <div class="flex justify-between">
-                <span>Subtotal</span>
-                <span id="subtotal" class="font-semibold">$250</span>
-              </div>
-              <div class="flex justify-between">
-                <span>10% VAT</span>
-                <span id="vat" class="font-semibold">$25</span>
-              </div>
-              <hr class="my-1" />
-              <div class="flex justify-between text-lg font-bold text-primary">
-                <span>Total</span>
-                <span id="grand">$275</span>
-              </div>
-            </div>
-            <div class="card-actions justify-end mt-4">
-              <button
-                id="book-now"
-                class="btn btn-primary w-full transition-all hover:scale-105"
+          </div>
+
+          <!-- Hero Content -->
+          <div class="text-center lg:text-left max-w-2xl">
+            <h1 class="text-5xl lg:text-7xl font-bold font-bebas leading-tight">
+              <span
+                class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
               >
-                Book Now
+                DISCOVER
+              </span>
+              <br />
+              <span class="text-base-content">AROUND THE</span>
+              <br />
+              <span class="text-accent">WORLD</span>
+            </h1>
+            <p class="py-6 text-lg opacity-80">
+              Experience seamless flight booking with FlightMaster Pro. Explore
+              incredible destinations with our world-class service, competitive
+              pricing, and unmatched customer experience. Your journey begins
+              here.
+            </p>
+            <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+              <button class="btn btn-outline btn-primary">
+                Explore Destinations
               </button>
+              <button class="btn btn-accent text-white">Hot Deals</button>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-2 gap-6 mt-12">
+              <div class="flex items-start space-x-3">
+                <div class="bg-primary/10 p-2 rounded-lg">
+                  <i class="fas fa-shield-alt text-primary text-xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-sm">Safe Travel</h3>
+                  <p class="text-xs opacity-70">Priority safety measures</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <div class="bg-secondary/10 p-2 rounded-lg">
+                  <i class="fas fa-headset text-secondary text-xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-sm">24/7 Support</h3>
+                  <p class="text-xs opacity-70">Always here to help</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <div class="bg-accent/10 p-2 rounded-lg">
+                  <i class="fas fa-tag text-accent text-xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-sm">Best Price</h3>
+                  <p class="text-xs opacity-70">Guaranteed best deals</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <div class="bg-neutral/10 p-2 rounded-lg">
+                  <i class="fas fa-globe text-neutral text-xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-sm">Global Reach</h3>
+                  <p class="text-xs opacity-70">200+ destinations</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
 
-    <script src="app.js"></script>
+    <!-- Font Awesome for Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- JavaScript Modules -->
+    <script type="module" src="./js/main.js"></script>
+    <script type="module" src="./js/booking.js"></script>
+    <script type="module" src="./js/theme.js"></script>
   </body>
 </html>
