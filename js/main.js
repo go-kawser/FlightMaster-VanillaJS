@@ -1,13 +1,18 @@
 // Main Application Initialization
 class FlightMasterApp {
   constructor() {
+    this.isInitialized = false;
     this.init();
   }
 
   init() {
-    console.log("FlightMaster Pro Initialized");
+    if (this.isInitialized) return;
+
+    console.log("🚀 FlightMaster Pro Initialized");
     this.setupGlobalEventListeners();
     this.initializeComponents();
+    this.setupErrorHandling();
+    this.isInitialized = true;
   }
 
   setupGlobalEventListeners() {
@@ -16,15 +21,23 @@ class FlightMasterApp {
       this.handleGlobalClick(e);
     });
 
-    // Responsive window resize handler
+    // Responsive window resize handler with debounce
+    let resizeTimeout;
     window.addEventListener("resize", () => {
-      this.handleResize();
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        this.handleResize();
+      }, 250);
     });
 
     // Keyboard navigation
     document.addEventListener("keydown", (e) => {
       this.handleKeyboardNavigation(e);
     });
+
+    // Online/offline detection
+    window.addEventListener("online", () => this.handleOnlineStatus());
+    window.addEventListener("offline", () => this.handleOfflineStatus());
   }
 
   initializeComponents() {
@@ -32,6 +45,7 @@ class FlightMasterApp {
     this.initializeNavigation();
     this.initializeAnimations();
     this.initializeFormValidation();
+    this.initializePerformanceMonitoring();
   }
 
   initializeNavigation() {
@@ -51,23 +65,72 @@ class FlightMasterApp {
 
     // Mobile menu toggle enhancement
     this.setupMobileNavigation();
+
+    // Active navigation highlighting
+    this.setupActiveNavigation();
   }
 
   setupMobileNavigation() {
-    const mobileMenuBtn = document.querySelector(".dropdown");
+    const mobileMenuBtn = document.querySelector(
+      '[data-drawer-toggle="mobile-menu"]'
+    );
     if (mobileMenuBtn) {
       mobileMenuBtn.addEventListener("click", (e) => {
         e.stopPropagation();
+        this.toggleMobileMenu();
       });
     }
 
     // Close mobile menu when clicking outside
-    document.addEventListener("click", () => {
-      const openDropdown = document.querySelector(".dropdown[open]");
-      if (openDropdown) {
-        openDropdown.removeAttribute("open");
+    document.addEventListener("click", (e) => {
+      if (
+        !e.target.closest(".mobile-menu") &&
+        !e.target.closest('[data-drawer-toggle="mobile-menu"]')
+      ) {
+        this.closeMobileMenu();
       }
     });
+  }
+
+  toggleMobileMenu() {
+    const mobileMenu = document.querySelector(".mobile-menu");
+    if (mobileMenu) {
+      mobileMenu.classList.toggle("hidden");
+      document.body.classList.toggle("mobile-menu-open");
+    }
+  }
+
+  closeMobileMenu() {
+    const mobileMenu = document.querySelector(".mobile-menu");
+    if (mobileMenu) {
+      mobileMenu.classList.add("hidden");
+      document.body.classList.remove("mobile-menu-open");
+    }
+  }
+
+  setupActiveNavigation() {
+    // Update active nav based on scroll position
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute("id");
+            navLinks.forEach((link) => {
+              link.classList.remove("active");
+              if (link.getAttribute("href") === `#${id}`) {
+                link.classList.add("active");
+              }
+            });
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
   }
 
   initializeAnimations() {
@@ -81,14 +144,17 @@ class FlightMasterApp {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("animate-fade-in");
+          observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
 
     // Observe elements for animation
-    document.querySelectorAll(".card, .feature-item").forEach((el) => {
-      observer.observe(el);
-    });
+    document
+      .querySelectorAll(".card, .feature-item, .destination-card")
+      .forEach((el) => {
+        observer.observe(el);
+      });
   }
 
   initializeFormValidation() {
@@ -97,14 +163,57 @@ class FlightMasterApp {
       email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
       phone: /^\+?[\d\s-()]{10,}$/,
       name: /^[a-zA-Z\s]{2,50}$/,
+      password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
     };
+  }
+
+  initializePerformanceMonitoring() {
+    // Monitor Core Web Vitals
+    if ("PerformanceObserver" in window) {
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          console.log(`${entry.name}: ${entry.value}`);
+        }
+      });
+
+      observer.observe({
+        entryTypes: ["navigation", "paint", "largest-contentful-paint"],
+      });
+    }
+  }
+
+  setupErrorHandling() {
+    // Global error handler
+    window.addEventListener("error", (e) => {
+      console.error("Global error:", e.error);
+      this.showNotification("An unexpected error occurred", "error");
+    });
+
+    // Unhandled promise rejection handler
+    window.addEventListener("unhandledrejection", (e) => {
+      console.error("Unhandled promise rejection:", e.reason);
+      this.showNotification("An unexpected error occurred", "error");
+      e.preventDefault();
+    });
   }
 
   handleGlobalClick(e) {
     // Handle theme selector clicks
-    if (e.target.closest("[data-theme]")) {
-      const theme = e.target.closest("[data-theme]").dataset.theme;
-      this.switchTheme(theme);
+    if (e.target.closest(".theme-option")) {
+      const themeOption = e.target.closest(".theme-option");
+      const theme = themeOption.dataset.theme;
+      if (window.themeManager) {
+        window.themeManager.applyTheme(theme);
+      }
+    }
+
+    // Handle social login clicks
+    if (e.target.closest(".social-login")) {
+      const socialButton = e.target.closest(".social-login");
+      const provider = socialButton.dataset.provider;
+      if (window.authSystem) {
+        window.authSystem.handleSocialLogin(provider);
+      }
     }
 
     // Handle navigation active states
@@ -117,12 +226,18 @@ class FlightMasterApp {
     // Handle responsive behavior
     const isMobile = window.innerWidth < 1024;
     document.body.classList.toggle("mobile-view", isMobile);
+
+    // Close mobile menu on resize to desktop
+    if (window.innerWidth >= 1024) {
+      this.closeMobileMenu();
+    }
   }
 
   handleKeyboardNavigation(e) {
     // Escape key closes modals and dropdowns
     if (e.key === "Escape") {
       this.closeAllDropdowns();
+      this.closeMobileMenu();
     }
 
     // Tab key navigation enhancement
@@ -131,14 +246,14 @@ class FlightMasterApp {
     }
   }
 
-  switchTheme(theme) {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("flightmaster-theme", theme);
+  handleOnlineStatus() {
+    this.showNotification("Connection restored", "success");
+    document.body.classList.remove("offline");
+  }
 
-    // Dispatch theme change event
-    window.dispatchEvent(
-      new CustomEvent("themeChanged", { detail: { theme } })
-    );
+  handleOfflineStatus() {
+    this.showNotification("You are currently offline", "error");
+    document.body.classList.add("offline");
   }
 
   setActiveNavigation(activeLink) {
@@ -177,19 +292,40 @@ class FlightMasterApp {
 
   // Utility methods
   showNotification(message, type = "info") {
+    // Remove existing notifications
+    document
+      .querySelectorAll(".notification")
+      .forEach((notif) => notif.remove());
+
     const notification = document.createElement("div");
-    notification.className = `toast toast-top toast-center z-50`;
+    notification.className = `notification ${type}`;
     notification.innerHTML = `
-            <div class="alert alert-${type} flex">
-                <span>${message}</span>
-                <button class="btn btn-sm btn-ghost" onclick="this.closest('.toast').remove()">
+            <div class="alert alert-${type} shadow-lg max-w-md">
+                <div>
+                    <i class="fas fa-${this.getNotificationIcon(
+                      type
+                    )} mr-2"></i>
+                    <span>${message}</span>
+                </div>
+                <button class="btn btn-sm btn-ghost" onclick="this.closest('.notification').remove()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
         `;
     document.body.appendChild(notification);
 
+    // Auto-remove after 5 seconds
     setTimeout(() => notification.remove(), 5000);
+  }
+
+  getNotificationIcon(type) {
+    const icons = {
+      success: "check-circle",
+      error: "exclamation-triangle",
+      info: "info-circle",
+      warning: "exclamation-circle",
+    };
+    return icons[type] || "info-circle";
   }
 
   formatCurrency(amount) {
@@ -210,12 +346,68 @@ class FlightMasterApp {
       timeout = setTimeout(later, wait);
     };
   }
+
+  throttle(func, limit) {
+    let inThrottle;
+    return function (...args) {
+      if (!inThrottle) {
+        func.apply(this, args);
+        inThrottle = true;
+        setTimeout(() => (inThrottle = false), limit);
+      }
+    };
+  }
+
+  // Performance monitoring
+  measurePerformance(name, callback) {
+    const startTime = performance.now();
+    const result = callback();
+    const endTime = performance.now();
+
+    console.log(`${name} took ${endTime - startTime} milliseconds`);
+    return result;
+  }
+
+  // Local storage utilities
+  setLocalStorage(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (error) {
+      console.error("Error saving to localStorage:", error);
+      return false;
+    }
+  }
+
+  getLocalStorage(key, defaultValue = null) {
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : defaultValue;
+    } catch (error) {
+      console.error("Error reading from localStorage:", error);
+      return defaultValue;
+    }
+  }
+
+  removeLocalStorage(key) {
+    try {
+      localStorage.removeItem(key);
+      return true;
+    } catch (error) {
+      console.error("Error removing from localStorage:", error);
+      return false;
+    }
+  }
 }
 
 // Initialize the application when DOM is loaded
-document.addEventListener("DOMContentLoaded", () => {
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    window.flightMasterApp = new FlightMasterApp();
+  });
+} else {
   window.flightMasterApp = new FlightMasterApp();
-});
+}
 
 // Export for module usage
 export default FlightMasterApp;

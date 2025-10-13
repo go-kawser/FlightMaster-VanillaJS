@@ -5,6 +5,7 @@ class AuthSystem {
     this.currentUser = JSON.parse(
       localStorage.getItem("flightmaster-current-user") || "null"
     );
+    this.socialAuthInitialized = false;
     this.init();
   }
 
@@ -12,6 +13,7 @@ class AuthSystem {
     this.bindAuthEvents();
     this.updateAuthUI();
     this.setupAuthForms();
+    this.initializeSocialAuth();
   }
 
   bindAuthEvents() {
@@ -34,6 +36,15 @@ class AuthSystem {
     if (signupForm) {
       signupForm.addEventListener("submit", (e) => this.handleSignup(e));
     }
+
+    // Social login buttons
+    document.addEventListener("click", (e) => {
+      if (e.target.closest(".social-login")) {
+        const button = e.target.closest(".social-login");
+        const provider = button.dataset.provider;
+        this.handleSocialLogin(provider, button);
+      }
+    });
   }
 
   setupAuthForms() {
@@ -45,6 +56,16 @@ class AuthSystem {
 
     // Form field formatting
     this.setupInputFormatting();
+
+    // Auto-save form data
+    this.setupFormAutoSave();
+  }
+
+  initializeSocialAuth() {
+    // Initialize social authentication providers
+    // This is where you would initialize Google, Facebook, etc. SDKs
+    console.log("Social authentication providers initialized");
+    this.socialAuthInitialized = true;
   }
 
   handleLogin(e) {
@@ -78,6 +99,8 @@ class AuthSystem {
       },
       createdAt: new Date().toISOString(),
       userId: this.generateUserId(),
+      lastLogin: null,
+      bookings: [],
     };
 
     if (!this.validateSignupForm(userData)) {
@@ -85,6 +108,82 @@ class AuthSystem {
     }
 
     this.registerUser(userData);
+  }
+
+  handleSocialLogin(provider, button) {
+    if (!this.socialAuthInitialized) {
+      this.showFormErrors(["Social authentication is not available"]);
+      return;
+    }
+
+    // Show loading state
+    this.setSocialButtonLoading(button, true);
+
+    // Simulate social authentication
+    setTimeout(() => {
+      this.setSocialButtonLoading(button, false);
+
+      // For demo purposes - create a mock social user
+      const socialUser = this.createSocialUser(provider);
+
+      // Auto-login with social account
+      this.currentUser = socialUser;
+      localStorage.setItem(
+        "flightmaster-current-user",
+        JSON.stringify(this.currentUser)
+      );
+
+      this.showAuthSuccess(`Signed in with ${this.getProviderName(provider)}!`);
+      this.redirectAfterAuth();
+    }, 2000);
+  }
+
+  createSocialUser(provider) {
+    const providerNames = {
+      google: "Google",
+      facebook: "Facebook",
+      github: "GitHub",
+      twitter: "Twitter",
+    };
+
+    return {
+      firstName: "Social",
+      lastName: "User",
+      email: `user@${provider}.com`,
+      provider: provider,
+      providerName: providerNames[provider],
+      userId: `SOCIAL_${provider}_${Date.now()}`,
+      isSocial: true,
+      createdAt: new Date().toISOString(),
+      lastLogin: new Date().toISOString(),
+    };
+  }
+
+  getProviderName(provider) {
+    const names = {
+      google: "Google",
+      facebook: "Facebook",
+      github: "GitHub",
+      twitter: "Twitter",
+    };
+    return names[provider] || provider;
+  }
+
+  setSocialButtonLoading(button, loading) {
+    if (loading) {
+      button.classList.add("loading");
+      button.disabled = true;
+      const originalHTML = button.innerHTML;
+      button.setAttribute("data-original-html", originalHTML);
+      button.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Connecting...`;
+    } else {
+      button.classList.remove("loading");
+      button.disabled = false;
+      const originalHTML = button.getAttribute("data-original-html");
+      if (originalHTML) {
+        button.innerHTML = originalHTML;
+      }
+    }
   }
 
   validateLoginForm(email, password) {
@@ -153,6 +252,10 @@ class AuthSystem {
     );
 
     if (user) {
+      // Update last login
+      user.lastLogin = new Date().toISOString();
+      localStorage.setItem("flightmaster-users", JSON.stringify(this.users));
+
       this.currentUser = { ...user };
       delete this.currentUser.password; // Remove password from session
 
@@ -237,18 +340,22 @@ class AuthSystem {
     const passwordInput = document.getElementById("password");
     if (!passwordInput) return;
 
-    const strengthMeter = document.createElement("div");
-    strengthMeter.className = "password-strength mt-2 hidden";
-    strengthMeter.innerHTML = `
-            <div class="flex items-center gap-2">
-                <div class="strength-bar h-2 flex-1 bg-gray-200 rounded-full overflow-hidden">
-                    <div class="strength-progress h-full transition-all duration-500"></div>
+    // Create strength meter element
+    let strengthMeter = document.getElementById("password-strength-meter");
+    if (!strengthMeter) {
+      strengthMeter = document.createElement("div");
+      strengthMeter.id = "password-strength-meter";
+      strengthMeter.className = "password-strength mt-2 hidden";
+      strengthMeter.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <div class="strength-bar h-2 flex-1 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="strength-progress h-full transition-all duration-500"></div>
+                    </div>
+                    <span class="strength-text text-sm font-medium"></span>
                 </div>
-                <span class="strength-text text-sm font-medium"></span>
-            </div>
-        `;
-
-    passwordInput.parentNode.appendChild(strengthMeter);
+            `;
+      passwordInput.parentNode.appendChild(strengthMeter);
+    }
 
     passwordInput.addEventListener("input", (e) => {
       const strength = this.calculatePasswordStrength(e.target.value);
@@ -276,6 +383,48 @@ class AuthSystem {
         }
       });
     });
+  }
+
+  setupFormAutoSave() {
+    // Auto-save form data to localStorage
+    const forms = document.querySelectorAll("#loginForm, #signupForm");
+
+    forms.forEach((form) => {
+      const inputs = form.querySelectorAll("input");
+
+      inputs.forEach((input) => {
+        input.addEventListener("input", () => {
+          this.saveFormData(form);
+        });
+      });
+
+      // Load saved data
+      this.loadFormData(form);
+    });
+  }
+
+  saveFormData(form) {
+    const formData = new FormData(form);
+    const data = {};
+
+    for (let [key, value] of formData.entries()) {
+      data[key] = value;
+    }
+
+    localStorage.setItem(`flightmaster-form-${form.id}`, JSON.stringify(data));
+  }
+
+  loadFormData(form) {
+    const savedData = localStorage.getItem(`flightmaster-form-${form.id}`);
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      Object.keys(data).forEach((key) => {
+        const input = form.querySelector(`[name="${key}"]`);
+        if (input) {
+          input.value = data[key];
+        }
+      });
+    }
   }
 
   // Utility Methods
@@ -350,11 +499,20 @@ class AuthSystem {
   }
 
   formatPhoneNumber(phone) {
-    // Basic phone formatting
-    return phone
-      .replace(/\D/g, "")
-      .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")
-      .substring(0, 14);
+    // Remove all non-digit characters
+    const cleaned = phone.replace(/\D/g, "");
+
+    // Format based on length
+    if (cleaned.length <= 3) {
+      return cleaned;
+    } else if (cleaned.length <= 6) {
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3)}`;
+    } else {
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(
+        6,
+        10
+      )}`;
+    }
   }
 
   capitalizeName(name) {
@@ -422,12 +580,17 @@ class AuthSystem {
         )
         .join("");
       errorContainer.classList.remove("hidden");
+
+      // Scroll to errors
+      errorContainer.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }
 
   showAuthSuccess(message) {
     if (window.flightMasterApp) {
       window.flightMasterApp.showNotification(message, "success");
+    } else {
+      alert(message); // Fallback
     }
   }
 
@@ -444,6 +607,29 @@ class AuthSystem {
 
   getCurrentUser() {
     return this.currentUser;
+  }
+
+  getUserBookings() {
+    if (!this.currentUser) return [];
+    const user = this.users.find((u) => u.userId === this.currentUser.userId);
+    return user ? user.bookings || [] : [];
+  }
+
+  addUserBooking(booking) {
+    if (!this.currentUser) return false;
+
+    const userIndex = this.users.findIndex(
+      (u) => u.userId === this.currentUser.userId
+    );
+    if (userIndex !== -1) {
+      if (!this.users[userIndex].bookings) {
+        this.users[userIndex].bookings = [];
+      }
+      this.users[userIndex].bookings.push(booking);
+      localStorage.setItem("flightmaster-users", JSON.stringify(this.users));
+      return true;
+    }
+    return false;
   }
 }
 
