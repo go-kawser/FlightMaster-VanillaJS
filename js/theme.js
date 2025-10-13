@@ -1,82 +1,227 @@
-// Theme Management System
+// Advanced Theme Management System
 class ThemeManager {
   constructor() {
     this.themes = ["light", "dark", "cupcake", "bumblebee", "emerald"];
-    this.currentTheme = localStorage.getItem("theme") || "light";
+    this.currentTheme = this.getSavedTheme();
     this.init();
   }
 
   init() {
     this.applyTheme(this.currentTheme);
     this.bindThemeEvents();
+    this.setupThemeObserver();
+  }
+
+  getSavedTheme() {
+    return (
+      localStorage.getItem("flightmaster-theme") ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light")
+    );
   }
 
   applyTheme(theme) {
+    if (!this.themes.includes(theme)) {
+      theme = "light";
+    }
+
     document.documentElement.setAttribute("data-theme", theme);
     this.currentTheme = theme;
-    localStorage.setItem("theme", theme);
+    localStorage.setItem("flightmaster-theme", theme);
 
-    // Update theme selector UI
     this.updateThemeSelector(theme);
+    this.dispatchThemeChange(theme);
+    this.applyCustomStyles(theme);
   }
 
   bindThemeEvents() {
     // Theme selector clicks
     document.addEventListener("click", (e) => {
-      if (e.target.closest("[data-theme]")) {
-        const theme = e.target.closest("[data-theme]").dataset.theme;
+      const themeElement = e.target.closest("[data-theme]");
+      if (themeElement) {
+        const theme = themeElement.dataset.theme;
         this.applyTheme(theme);
         this.showThemeToast(theme);
       }
     });
 
-    // System theme preference
+    // System theme preference changes
     if (window.matchMedia) {
       window
         .matchMedia("(prefers-color-scheme: dark)")
         .addEventListener("change", (e) => {
-          if (!localStorage.getItem("theme")) {
+          if (!localStorage.getItem("flightmaster-theme")) {
             this.applyTheme(e.matches ? "dark" : "light");
           }
         });
     }
-  }
 
-  updateThemeSelector(currentTheme) {
-    document.querySelectorAll("[data-theme]").forEach((item) => {
-      if (item.dataset.theme === currentTheme) {
-        item.classList.add("active", "bg-primary", "text-primary-content");
-      } else {
-        item.classList.remove("active", "bg-primary", "text-primary-content");
+    // Keyboard shortcuts
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.key === "t") {
+        e.preventDefault();
+        this.cycleTheme();
       }
     });
   }
 
-  showThemeToast(theme) {
-    // Create toast notification
-    const toast = document.createElement("div");
-    toast.className = `toast toast-top toast-center z-50`;
-    toast.innerHTML = `
-            <div class="alert alert-success flex">
-                <span>Theme changed to ${theme}</span>
-            </div>
-        `;
-    document.body.appendChild(toast);
+  setupThemeObserver() {
+    // Observe for theme-related changes in the document
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === "data-theme") {
+          this.handleThemeAttributeChange();
+        }
+      });
+    });
 
-    setTimeout(() => toast.remove(), 2000);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
   }
 
-  // Cycle through themes
+  updateThemeSelector(currentTheme) {
+    document.querySelectorAll("[data-theme]").forEach((item) => {
+      const isActive = item.dataset.theme === currentTheme;
+      item.classList.toggle("active", isActive);
+      item.classList.toggle("bg-primary", isActive);
+      item.classList.toggle("text-primary-content", isActive);
+
+      // Update aria-current for accessibility
+      item.setAttribute("aria-current", isActive ? "true" : "false");
+    });
+  }
+
   cycleTheme() {
     const currentIndex = this.themes.indexOf(this.currentTheme);
     const nextIndex = (currentIndex + 1) % this.themes.length;
     this.applyTheme(this.themes[nextIndex]);
+    this.showThemeToast(this.themes[nextIndex]);
+  }
+
+  showThemeToast(theme) {
+    const themeNames = {
+      light: "🌞 Light",
+      dark: "🌙 Dark",
+      cupcake: "🧁 Cupcake",
+      bumblebee: "🐝 Bumblebee",
+      emerald: "💎 Emerald",
+    };
+
+    if (window.flightMasterApp) {
+      window.flightMasterApp.showNotification(
+        `Theme changed to ${themeNames[theme]}`
+      );
+    }
+  }
+
+  dispatchThemeChange(theme) {
+    window.dispatchEvent(
+      new CustomEvent("themeChanged", {
+        detail: {
+          theme,
+          timestamp: new Date().toISOString(),
+          previousTheme: this.previousTheme,
+        },
+      })
+    );
+
+    this.previousTheme = theme;
+  }
+
+  applyCustomStyles(theme) {
+    // Remove existing custom style element
+    const existingStyle = document.getElementById("theme-custom-styles");
+    if (existingStyle) {
+      existingStyle.remove();
+    }
+
+    // Add theme-specific custom styles
+    const style = document.createElement("style");
+    style.id = "theme-custom-styles";
+
+    const customStyles = this.getCustomStyles(theme);
+    style.textContent = customStyles;
+
+    document.head.appendChild(style);
+  }
+
+  getCustomStyles(theme) {
+    const styles = {
+      dark: `
+                .bg-gradient-custom {
+                    background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+                }
+                .text-gradient {
+                    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+            `,
+      light: `
+                .bg-gradient-custom {
+                    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+                }
+            `,
+      cupcake: `
+                .bg-gradient-custom {
+                    background: linear-gradient(135deg, #fae8ff 0%, #d8f2ff 100%);
+                }
+            `,
+      bumblebee: `
+                .bg-gradient-custom {
+                    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+                }
+            `,
+      emerald: `
+                .bg-gradient-custom {
+                    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+                }
+            `,
+    };
+
+    return styles[theme] || styles.light;
+  }
+
+  handleThemeAttributeChange() {
+    const newTheme = document.documentElement.getAttribute("data-theme");
+    if (newTheme !== this.currentTheme) {
+      this.currentTheme = newTheme;
+      this.updateThemeSelector(newTheme);
+    }
+  }
+
+  // Theme analytics
+  trackThemeUsage(theme) {
+    const analyticsData = {
+      theme,
+      previousTheme: this.previousTheme,
+      timestamp: new Date().toISOString(),
+      source: "theme_manager",
+    };
+
+    console.log("Theme Change:", analyticsData);
+  }
+
+  // Utility methods
+  getCurrentTheme() {
+    return this.currentTheme;
+  }
+
+  getAvailableThemes() {
+    return [...this.themes];
+  }
+
+  isDarkTheme() {
+    return this.currentTheme === "dark";
   }
 }
 
 // Initialize theme manager
 document.addEventListener("DOMContentLoaded", () => {
-  new ThemeManager();
+  window.themeManager = new ThemeManager();
 });
 
 export default ThemeManager;
