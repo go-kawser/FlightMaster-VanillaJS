@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up | FlightMaster Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0/dist/full.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0ea5e9",
+              secondary: "#64748b",
+              accent: "#f59e0b",
+            },
+            fontFamily: {
+              bebas: ["Bebas Neue", "cursive"],
+              dmsans: ["DM Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 font-dmsans"
+  >
+    <!-- Navigation -->
+    <header
+      class="sticky top-0 z-50 shadow-lg bg-base-100 backdrop-blur-lg bg-opacity-90"
+    >
+      <div class="navbar max-w-7xl mx-auto px-4">
+        <div class="navbar-start">
+          <a
+            href="./index.html"
+            class="btn btn-ghost text-xl font-bebas text-3xl text-primary"
+          >
+            <i class="fas fa-plane mr-2"></i>FlightMaster
+            <span class="text-accent">Pro</span>
+          </a>
+        </div>
+        <div class="navbar-end">
+          <a
+            href="./login.html"
+            class="btn btn-outline btn-primary font-semibold"
+          >
+            <i class="fas fa-sign-in-alt mr-2"></i>Login
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="min-h-[80vh] flex items-center justify-center px-4 py-8">
+      <div
+        class="card w-full max-w-2xl shadow-2xl bg-base-100 transform transition-all duration-500 hover:scale-[1.02]"
+      >
+        <div class="card-body p-8">
+          <div class="text-center mb-8">
+            <h2 class="text-4xl font-bebas text-primary mb-2">
+              JOIN FLIGHTMASTER PRO
+            </h2>
+            <p class="text-base-content/70 text-lg">
+              Create your account and start your journey
+            </p>
+          </div>
+
+          <form id="signupForm" class="space-y-6">
+            <div id="formErrors" class="hidden space-y-2"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-semibold text-lg"
+                    >First Name</span
+                  >
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  placeholder="Enter your first name"
+                  class="input input-bordered input-primary text-lg py-4"
+                  required
+                />
+              </div>
+
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-semibold text-lg"
+                    >Last Name</span
+                  >
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  placeholder="Enter your last name"
+                  class="input input-bordered input-primary text-lg py-4"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-semibold text-lg"
+                  >Email Address</span
+                >
+              </label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                class="input input-bordered input-primary text-lg py-4"
+                required
+              />
+            </div>
+
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-semibold text-lg"
+                  >Phone Number</span
+                >
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Enter your phone number"
+                class="input input-bordered input-primary text-lg py-4"
+                required
+              />
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-semibold text-lg">Password</span>
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Create a password"
+                  class="input input-bordered input-primary text-lg py-4"
+                  required
+                />
+              </div>
+
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-semibold text-lg"
+                    >Confirm Password</span
+                  >
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm your password"
+                  class="input input-bordered input-primary text-lg py-4"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-control">
+              <label class="cursor-pointer label justify-start gap-4">
+                <input
+                  type="checkbox"
+                  name="newsletter"
+                  class="checkbox checkbox-primary"
+                />
+                <span class="label-text font-semibold text-lg"
+                  >Send me travel deals and newsletters</span
+                >
+              </label>
+            </div>
+
+            <div class="form-control">
+              <label class="cursor-pointer label justify-start gap-4">
+                <input
+                  type="checkbox"
+                  name="smsAlerts"
+                  class="checkbox checkbox-primary"
+                />
+                <span class="label-text font-semibold text-lg"
+                  >Send SMS alerts for flight updates</span
+                >
+              </label>
+            </div>
+
+            <div class="form-control mt-8">
+              <button
+                type="submit"
+                class="btn btn-primary text-white text-lg font-semibold py-4"
+              >
+                <i class="fas fa-user-plus mr-2"></i>Create Account
+              </button>
+            </div>
+          </form>
+
+          <div class="divider my-6">OR SIGN UP WITH</div>
+
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <button class="btn btn-outline btn-lg font-semibold">
+              <i class="fab fa-google text-red-500 mr-2"></i>Google
+            </button>
+            <button class="btn btn-outline btn-lg font-semibold">
+              <i class="fab fa-facebook text-blue-600 mr-2"></i>Facebook
+            </button>
+          </div>
+
+          <div class="text-center">
+            <p class="text-base-content/70 text-lg">
+              Already have an account?
+              <a
+                href="./login.html"
+                class="link link-primary font-semibold text-lg"
+                >Sign in here</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer footer-center bg-base-200 text-base-content p-4 mt-8">
+      <div>
+        <p class="text-sm">
+          © 2025 FlightMaster Pro. All rights reserved. | Secure Registration
+          System
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="./js/auth.js"></script>
+  </body>
+</html>
