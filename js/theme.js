@@ -1,4 +1,4 @@
-// Advanced Theme Management System
+// Theme Management System
 class ThemeManager {
   constructor() {
     this.themes = ["light", "dark"];

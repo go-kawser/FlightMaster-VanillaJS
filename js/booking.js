@@ -1,4 +1,4 @@
-// ES6 Class for Advanced Flight Booking System
+// Flight Booking System
 class FlightBookingSystem {
   constructor() {
     this.tickets = {

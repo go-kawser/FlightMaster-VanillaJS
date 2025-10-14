@@ -22,7 +22,7 @@
   font-family: "DM Sans", sans-serif;
 }
 
-/* ===== MEGA NAVBAR STYLES ===== */
+/* MEGA NAVBAR STYLES =====  */
 .navbar {
   min-height: var(--navbar-height);
   backdrop-filter: blur(8px);
@@ -63,7 +63,7 @@
   height: 2rem;
 }
 
-/* Glassmorphism for Dark Mode */
+/* Glass Morphism for Dark Mode */
 [data-theme="dark"] .card,
 [data-theme="dark"] .btn {
   background: rgba(31, 41, 55, 0.8);
@@ -231,7 +231,7 @@
   --a: #f59e0b;
 }
 
-/* More expanded styles for professional look */
+/* styles for professional look */
 .hero {
   background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
   border-radius: var(--border-radius);
@@ -251,7 +251,7 @@
   background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
 }
 
-/* Payment Modal Styles (New) */
+/* Payment Modal Styles */
 .payment-modal {
   position: fixed;
   top: 0;
@@ -283,7 +283,7 @@
   margin-bottom: 1rem;
 }
 
-/* Add more professional touches */
+/* add some professional touches */
 * {
   transition: color 0.3s ease, background-color 0.3s ease;
 }
@@ -293,4 +293,4 @@ body {
   font-size: 1rem;
 }
 
-/* End of expanded CSS */
+/* End CSS */
