@@ -45,6 +45,13 @@ class AuthSystem {
         this.handleSocialLogin(provider, button);
       }
     });
+
+    // Logout button
+    document.addEventListener("click", (e) => {
+      if (e.target.closest('[onclick="logout()"]')) {
+        this.logout();
+      }
+    });
   }
 
   setupAuthForms() {
@@ -54,16 +61,14 @@ class AuthSystem {
     // Password strength meter
     this.setupPasswordStrength();
 
-    // Form field formatting
+    // Input formatting
     this.setupInputFormatting();
 
-    // Auto-save form data
+    // Form auto-save
     this.setupFormAutoSave();
   }
 
   initializeSocialAuth() {
-    // Initialize social authentication providers
-    // This is where you would initialize Google, Facebook, etc. SDKs
     console.log("Social authentication providers initialized");
     this.socialAuthInitialized = true;
   }
@@ -116,17 +121,11 @@ class AuthSystem {
       return;
     }
 
-    // Show loading state
     this.setSocialButtonLoading(button, true);
 
-    // Simulate social authentication
     setTimeout(() => {
       this.setSocialButtonLoading(button, false);
-
-      // For demo purposes - create a mock social user
       const socialUser = this.createSocialUser(provider);
-
-      // Auto-login with social account
       this.currentUser = socialUser;
       localStorage.setItem(
         "flightmaster-current-user",
@@ -252,12 +251,11 @@ class AuthSystem {
     );
 
     if (user) {
-      // Update last login
       user.lastLogin = new Date().toISOString();
       localStorage.setItem("flightmaster-users", JSON.stringify(this.users));
 
       this.currentUser = { ...user };
-      delete this.currentUser.password; // Remove password from session
+      delete this.currentUser.password;
 
       localStorage.setItem(
         "flightmaster-current-user",
@@ -271,14 +269,12 @@ class AuthSystem {
   }
 
   registerUser(userData) {
-    // Hash password before storing
     userData.password = this.hashPassword(userData.password);
     delete userData.confirmPassword;
 
     this.users.push(userData);
     localStorage.setItem("flightmaster-users", JSON.stringify(this.users));
 
-    // Auto-login after registration
     this.currentUser = { ...userData };
     delete this.currentUser.password;
 
@@ -296,35 +292,32 @@ class AuthSystem {
     this.updateAuthUI();
     this.showAuthSuccess("Logged out successfully");
 
-    // Redirect to home page
     setTimeout(() => {
       window.location.href = "./index.html";
     }, 1500);
   }
 
   updateAuthUI() {
-    const authButtons = document.querySelector(".auth-buttons");
-    const userMenu = document.querySelector(".user-menu");
+    const authButtons = document.querySelectorAll(".auth-buttons");
+    const userMenus = document.querySelectorAll(".user-menu");
 
-    if (authButtons && userMenu) {
+    authButtons.forEach((authButton) => {
+      authButton.classList.toggle("hidden", !!this.currentUser);
+    });
+
+    userMenus.forEach((userMenu) => {
+      userMenu.classList.toggle("hidden", !this.currentUser);
       if (this.currentUser) {
-        authButtons.classList.add("hidden");
-        userMenu.classList.remove("hidden");
-
-        // Update user info in menu
         const userNameElement = userMenu.querySelector(".user-name");
         if (userNameElement) {
           userNameElement.textContent = `${this.currentUser.firstName} ${this.currentUser.lastName}`;
         }
-      } else {
-        authButtons.classList.remove("hidden");
-        userMenu.classList.add("hidden");
       }
-    }
+    });
   }
 
   setupRealTimeValidation() {
-    const forms = document.querySelectorAll("form[data-validate]");
+    const forms = document.querySelectorAll("#loginForm, #signupForm");
 
     forms.forEach((form) => {
       const inputs = form.querySelectorAll("input[required]");
@@ -337,23 +330,22 @@ class AuthSystem {
   }
 
   setupPasswordStrength() {
-    const passwordInput = document.getElementById("password");
+    const passwordInput = document.querySelector('input[name="password"]');
     if (!passwordInput) return;
 
-    // Create strength meter element
     let strengthMeter = document.getElementById("password-strength-meter");
     if (!strengthMeter) {
       strengthMeter = document.createElement("div");
       strengthMeter.id = "password-strength-meter";
       strengthMeter.className = "password-strength mt-2 hidden";
       strengthMeter.innerHTML = `
-                <div class="flex items-center gap-2">
-                    <div class="strength-bar h-2 flex-1 bg-gray-200 rounded-full overflow-hidden">
-                        <div class="strength-progress h-full transition-all duration-500"></div>
-                    </div>
-                    <span class="strength-text text-sm font-medium"></span>
-                </div>
-            `;
+        <div class="flex items-center gap-2">
+          <div class="strength-bar h-2 flex-1 bg-gray-200 rounded-full overflow-hidden">
+            <div class="strength-progress h-full transition-all duration-500"></div>
+          </div>
+          <span class="strength-text text-sm font-medium"></span>
+        </div>
+      `;
       passwordInput.parentNode.appendChild(strengthMeter);
     }
 
@@ -364,15 +356,13 @@ class AuthSystem {
   }
 
   setupInputFormatting() {
-    // Phone number formatting
-    const phoneInput = document.getElementById("phone");
+    const phoneInput = document.querySelector('input[name="phone"]');
     if (phoneInput) {
       phoneInput.addEventListener("input", (e) => {
         e.target.value = this.formatPhoneNumber(e.target.value);
       });
     }
 
-    // Name capitalization
     const nameInputs = document.querySelectorAll(
       'input[name="firstName"], input[name="lastName"]'
     );
@@ -386,7 +376,6 @@ class AuthSystem {
   }
 
   setupFormAutoSave() {
-    // Auto-save form data to localStorage
     const forms = document.querySelectorAll("#loginForm, #signupForm");
 
     forms.forEach((form) => {
@@ -398,7 +387,6 @@ class AuthSystem {
         });
       });
 
-      // Load saved data
       this.loadFormData(form);
     });
   }
@@ -406,11 +394,9 @@ class AuthSystem {
   saveFormData(form) {
     const formData = new FormData(form);
     const data = {};
-
     for (let [key, value] of formData.entries()) {
       data[key] = value;
     }
-
     localStorage.setItem(`flightmaster-form-${form.id}`, JSON.stringify(data));
   }
 
@@ -427,7 +413,6 @@ class AuthSystem {
     }
   }
 
-  // Utility Methods
   isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -452,7 +437,6 @@ class AuthSystem {
   }
 
   hashPassword(password) {
-    // Simple hash for demo purposes - in production use proper hashing
     return btoa(unescape(encodeURIComponent(password)));
   }
 
@@ -462,13 +446,11 @@ class AuthSystem {
 
   calculatePasswordStrength(password) {
     let strength = 0;
-
     if (password.length >= 8) strength += 1;
     if (/[A-Z]/.test(password)) strength += 1;
     if (/[a-z]/.test(password)) strength += 1;
     if (/[0-9]/.test(password)) strength += 1;
     if (/[^A-Za-z0-9]/.test(password)) strength += 1;
-
     return strength;
   }
 
@@ -494,25 +476,18 @@ class AuthSystem {
       "bg-",
       "text-"
     )}`;
-
     meter.classList.remove("hidden");
   }
 
   formatPhoneNumber(phone) {
-    // Remove all non-digit characters
     const cleaned = phone.replace(/\D/g, "");
-
-    // Format based on length
-    if (cleaned.length <= 3) {
-      return cleaned;
-    } else if (cleaned.length <= 6) {
+    if (cleaned.length <= 3) return cleaned;
+    if (cleaned.length <= 6)
       return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3)}`;
-    } else {
-      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(
-        6,
-        10
-      )}`;
-    }
+    return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(
+      6,
+      10
+    )}`;
   }
 
   capitalizeName(name) {
@@ -532,6 +507,11 @@ class AuthSystem {
       case "tel":
         isValid = this.isValidPhone(value);
         errorMessage = "Please enter a valid phone number";
+        break;
+      case "password":
+        isValid = this.isStrongPassword(value);
+        errorMessage =
+          "Password must be at least 8 characters with uppercase, lowercase, and numbers";
         break;
       default:
         if (field.required && !value) {
@@ -580,8 +560,6 @@ class AuthSystem {
         )
         .join("");
       errorContainer.classList.remove("hidden");
-
-      // Scroll to errors
       errorContainer.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }
@@ -590,7 +568,7 @@ class AuthSystem {
     if (window.flightMasterApp) {
       window.flightMasterApp.showNotification(message, "success");
     } else {
-      alert(message); // Fallback
+      alert(message);
     }
   }
 
@@ -600,7 +578,6 @@ class AuthSystem {
     }, 2000);
   }
 
-  // Getters
   isAuthenticated() {
     return this.currentUser !== null;
   }
@@ -630,6 +607,16 @@ class AuthSystem {
       return true;
     }
     return false;
+  }
+
+  // New: Check for payment (integrates with booking)
+  requireLoginForPayment() {
+    if (!this.isAuthenticated()) {
+      this.showFormErrors(["Please login to proceed with payment"]);
+      setTimeout(() => (window.location.href = "./login.html"), 2000);
+      return false;
+    }
+    return true;
   }
 }
 

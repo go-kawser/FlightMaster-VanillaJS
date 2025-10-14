@@ -38,7 +38,7 @@
   <body
     class="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 font-dmsans"
   >
-    <!-- Compact Sticky Navbar -->
+    <!-- Mega Navbar (Same as index.html) -->
     <header
       class="sticky top-0 z-50 shadow-lg bg-base-100/95 backdrop-blur-sm border-b border-base-300"
     >
@@ -46,65 +46,153 @@
         class="navbar flex justify-between items-center px-4 py-2 max-w-7xl mx-auto"
       >
         <!-- Logo -->
-        <div class="navbar-start">
-          <a href="./index.html" class="flex items-center space-x-2">
+        <div class="navbar-start flex items-center space-x-2">
+          <a
+            href="./index.html"
+            class="flex items-center space-x-2 cursor-pointer"
+          >
             <i class="fas fa-plane text-primary text-xl"></i>
             <span class="font-bebas text-2xl text-primary">
               FlightMaster <span class="text-accent">Pro</span>
             </span>
           </a>
+          <!-- Hamburger for Mobile -->
+          <button
+            class="btn btn-ghost lg:hidden ml-4"
+            onclick="toggleMobileMenu()"
+          >
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+
+        <!-- Desktop Navigation (Mega Menu Style) -->
+        <div class="navbar-center hidden lg:flex">
+          <ul
+            class="menu menu-horizontal px-1 font-medium text-sm flex items-center space-x-1"
+          >
+            <li>
+              <a
+                href="#home"
+                class="mx-2 hover:text-primary transition-colors duration-200 py-2"
+                >Home</a
+              >
+            </li>
+            <li class="dropdown dropdown-hover">
+              <a
+                href="#destinations"
+                class="mx-2 hover:text-primary transition-colors duration-200 py-2"
+                >Destinations</a
+              >
+              <ul
+                class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li><a href="#popular-cities">Popular Cities</a></li>
+                <li><a href="#exotic-locations">Exotic Locations</a></li>
+                <li><a href="#beach-getaways">Beach Getaways</a></li>
+              </ul>
+            </li>
+            <li class="dropdown dropdown-hover">
+              <a
+                href="#deals"
+                class="mx-2 hover:text-primary transition-colors duration-200 py-2"
+                >Hot Deals</a
+              >
+              <ul
+                class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li><a href="#last-minute">Last Minute Deals</a></li>
+                <li><a href="#seasonal">Seasonal Offers</a></li>
+                <li><a href="#group">Group Discounts</a></li>
+              </ul>
+            </li>
+            <li>
+              <a
+                href="#about"
+                class="mx-2 hover:text-primary transition-colors duration-200 py-2"
+                >About</a
+              >
+            </li>
+            <li>
+              <a
+                href="#contact"
+                class="mx-2 hover:text-primary transition-colors duration-200 py-2"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div
+          class="mobile-menu hidden lg:hidden absolute top-full left-0 w-full bg-base-100 shadow-lg z-40"
+        >
+          <ul class="menu menu-vertical p-4">
+            <li><a href="#home">Home</a></li>
+            <li>
+              <details>
+                <summary>Destinations</summary>
+                <ul class="p-2 bg-base-100 rounded-t-none">
+                  <li><a href="#popular-cities">Popular Cities</a></li>
+                  <li><a href="#exotic-locations">Exotic Locations</a></li>
+                  <li><a href="#beach-getaways">Beach Getaways</a></li>
+                </ul>
+              </details>
+            </li>
+            <li>
+              <details>
+                <summary>Hot Deals</summary>
+                <ul class="p-2 bg-base-100 rounded-t-none">
+                  <li><a href="#last-minute">Last Minute Deals</a></li>
+                  <li><a href="#seasonal">Seasonal Offers</a></li>
+                  <li><a href="#group">Group Discounts</a></li>
+                </ul>
+              </details>
+            </li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
         </div>
 
         <!-- Right Section -->
         <div class="navbar-end gap-2 flex items-center">
-          <!-- Theme Toggle -->
-          <div class="dropdown dropdown-end">
-            <div
-              tabindex="0"
-              role="button"
-              class="btn btn-ghost btn-sm btn-circle"
-            >
-              <i class="fas fa-palette text-base"></i>
-            </div>
-            <ul
-              tabindex="0"
-              class="dropdown-content z-[1] menu p-2 shadow-2xl bg-base-200 rounded-box w-48"
-            >
-              <li>
-                <a data-theme="light" class="theme-option text-sm py-2"
-                  >🌞 Light</a
-                >
-              </li>
-              <li>
-                <a data-theme="dark" class="theme-option text-sm py-2"
-                  >🌙 Dark</a
-                >
-              </li>
-              <li>
-                <a data-theme="cupcake" class="theme-option text-sm py-2"
-                  >🧁 Cupcake</a
-                >
-              </li>
-              <li>
-                <a data-theme="bumblebee" class="theme-option text-sm py-2"
-                  >🐝 Bumblebee</a
-                >
-              </li>
-              <li>
-                <a data-theme="emerald" class="theme-option text-sm py-2"
-                  >💎 Emerald</a
-                >
-              </li>
-            </ul>
-          </div>
-
-          <!-- Auth Button -->
-          <a
-            href="./login.html"
-            class="btn btn-outline btn-primary btn-sm font-medium text-sm"
+          <!-- Theme Toggle (Easy Mode: Light/Dark Switch) -->
+          <button
+            id="theme-toggle"
+            class="btn btn-ghost btn-sm btn-circle"
+            onclick="toggleTheme()"
           >
-            <i class="fas fa-sign-in-alt mr-1"></i>Login
-          </a>
+            <i class="fas fa-sun text-base"></i>
+          </button>
+
+          <!-- Auth Buttons or User Profile -->
+          <div class="auth-buttons flex items-center gap-2">
+            <a
+              href="./login.html"
+              class="btn btn-ghost btn-sm font-medium text-sm"
+              >Login</a
+            >
+            <a
+              href="./signup.html"
+              class="btn btn-primary btn-sm text-white font-medium text-sm"
+              >Sign Up</a
+            >
+          </div>
+          <div class="user-menu hidden">
+            <div class="dropdown dropdown-end">
+              <label tabindex="0" class="btn btn-ghost btn-sm">
+                <i class="fas fa-user"></i>
+                <span class="user-name ml-1">User</span>
+              </label>
+              <ul
+                tabindex="0"
+                class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li><a href="#profile">Profile</a></li>
+                <li><a href="#bookings">Bookings</a></li>
+                <li><a onclick="logout()">Logout</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </nav>
     </header>
@@ -308,5 +396,32 @@
 
     <script type="module" src="./js/auth.js"></script>
     <script type="module" src="./js/theme.js"></script>
+    <script type="module" src="./js/main.js"></script>
+    <script>
+      function toggleMobileMenu() {
+        document.querySelector(".mobile-menu").classList.toggle("hidden");
+      }
+
+      function toggleTheme() {
+        const current = document.documentElement.getAttribute("data-theme");
+        const newTheme = current === "light" ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("flightmaster-theme", newTheme);
+        const icon = document.querySelector("#theme-toggle i");
+        icon.className =
+          newTheme === "light"
+            ? "fas fa-sun text-base"
+            : "fas fa-moon text-base";
+      }
+
+      // Initial theme icon setup
+      const savedTheme = localStorage.getItem("flightmaster-theme") || "light";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      const initialIcon = document.querySelector("#theme-toggle i");
+      initialIcon.className =
+        savedTheme === "light"
+          ? "fas fa-sun text-base"
+          : "fas fa-moon text-base";
+    </script>
   </body>
 </html>

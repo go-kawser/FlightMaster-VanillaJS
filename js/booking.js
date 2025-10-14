@@ -54,7 +54,6 @@ class FlightBookingSystem {
   }
 
   bindEvents() {
-    // Event delegation for ticket buttons
     document.addEventListener("click", (e) => {
       if (e.target.closest(".ticket-increase")) {
         this.handleTicketChange(
@@ -70,7 +69,6 @@ class FlightBookingSystem {
       }
     });
 
-    // Form input events
     ["flyingFrom", "flyingTo", "departureDate", "returnDate"].forEach((id) => {
       const element = document.getElementById(id);
       if (element) {
@@ -82,26 +80,18 @@ class FlightBookingSystem {
       }
     });
 
-    // Book now button
     document
       .getElementById("bookNowBtn")
       ?.addEventListener("click", () => this.handleBooking());
 
-    // Enter key support
     document.addEventListener("keypress", (e) => {
       if (e.key === "Enter" && this.isFormValid()) {
         this.handleBooking();
       }
     });
-
-    // Flight search events
-    document
-      .getElementById("searchFlights")
-      ?.addEventListener("click", () => this.searchFlights());
   }
 
   setupAutoComplete() {
-    // Setup autocomplete for from and to fields
     this.setupFieldAutoComplete("flyingFrom", this.flightData.from);
     this.setupFieldAutoComplete("flyingTo", this.flightData.to);
   }
@@ -115,21 +105,16 @@ class FlightBookingSystem {
     field.addEventListener("input", (e) => {
       const value = e.target.value.toLowerCase();
 
-      // Remove existing list
-      if (list) {
-        list.remove();
-      }
+      if (list) list.remove();
 
       if (!value) return;
 
-      // Filter options
       const filteredOptions = options.filter((option) =>
         option.toLowerCase().includes(value)
       );
 
       if (filteredOptions.length === 0) return;
 
-      // Create suggestion list
       list = document.createElement("ul");
       list.className =
         "autocomplete-list absolute z-10 bg-base-100 border border-base-300 rounded-lg shadow-lg mt-1 w-full max-h-60 overflow-y-auto";
@@ -150,7 +135,6 @@ class FlightBookingSystem {
       field.parentNode.appendChild(list);
     });
 
-    // Close list when clicking outside
     document.addEventListener("click", (e) => {
       if (list && !field.contains(e.target) && !list.contains(e.target)) {
         list.remove();
@@ -159,7 +143,6 @@ class FlightBookingSystem {
   }
 
   setupFlightSearch() {
-    // Initialize flight search functionality
     const searchButton = document.getElementById("searchFlights");
     if (searchButton) {
       searchButton.addEventListener("click", () => this.performFlightSearch());
@@ -174,7 +157,6 @@ class FlightBookingSystem {
 
     this.showLoading("Searching for flights...");
 
-    // Simulate API call
     setTimeout(() => {
       this.hideLoading();
       this.displayFlightResults();
@@ -182,7 +164,6 @@ class FlightBookingSystem {
   }
 
   displayFlightResults() {
-    // This would display actual flight results from an API
     const results = this.generateMockFlightResults();
 
     const resultsContainer = document.getElementById("flightResults");
@@ -226,48 +207,46 @@ class FlightBookingSystem {
 
   generateFlightResultsHTML(flights) {
     return `
-            <div class="space-y-4">
-                <h3 class="text-2xl font-bebas text-primary mb-4">Available Flights</h3>
-                ${flights
-                  .map(
-                    (flight) => `
-                    <div class="card bg-base-100 shadow-lg border border-base-300">
-                        <div class="card-body">
-                            <div class="flex flex-col lg:flex-row justify-between items-center">
-                                <div class="flex-1">
-                                    <h4 class="font-bold text-lg">${
-                                      flight.airline
-                                    }</h4>
-                                    <p class="text-sm text-base-content/70">${
-                                      flight.flightNumber
-                                    }</p>
-                                </div>
-                                <div class="flex-1 text-center">
-                                    <div class="text-lg font-bold">${
-                                      flight.departure
-                                    } - ${flight.arrival}</div>
-                                    <div class="text-sm">${flight.duration} • ${
-                      flight.stops
-                    } stop${flight.stops !== 1 ? "s" : ""}</div>
-                                </div>
-                                <div class="flex-1 text-right">
-                                    <div class="text-2xl font-bold text-primary">$${
-                                      flight.price
-                                    }</div>
-                                    <button class="btn btn-primary btn-sm mt-2" onclick="bookingSystem.selectFlight(${JSON.stringify(
-                                      flight
-                                    ).replace(/"/g, "&quot;")})">
-                                        Select
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `
-                  )
-                  .join("")}
+      <div class="space-y-4">
+        <h3 class="text-2xl font-bebas text-primary mb-4">Available Flights</h3>
+        ${flights
+          .map(
+            (flight) => `
+          <div class="card bg-base-100 shadow-lg border border-base-300">
+            <div class="card-body">
+              <div class="flex flex-col lg:flex-row justify-between items-center">
+                <div class="flex-1">
+                  <h4 class="font-bold text-lg">${flight.airline}</h4>
+                  <p class="text-sm text-base-content/70">${
+                    flight.flightNumber
+                  }</p>
+                </div>
+                <div class="flex-1 text-center">
+                  <div class="text-lg font-bold">${flight.departure} - ${
+              flight.arrival
+            }</div>
+                  <div class="text-sm">${flight.duration} • ${
+              flight.stops
+            } stop${flight.stops !== 1 ? "s" : ""}</div>
+                </div>
+                <div class="flex-1 text-right">
+                  <div class="text-2xl font-bold text-primary">$${
+                    flight.price
+                  }</div>
+                  <button class="btn btn-primary btn-sm mt-2" onclick="window.bookingSystem.selectFlight(${JSON.stringify(
+                    flight
+                  ).replace(/"/g, "&quot;")})">
+                    Select
+                  </button>
+                </div>
+              </div>
             </div>
-        `;
+          </div>
+        `
+          )
+          .join("")}
+      </div>
+    `;
   }
 
   selectFlight(flight) {
@@ -277,7 +256,6 @@ class FlightBookingSystem {
       "success"
     );
 
-    // Update booking form with selected flight
     const total = this.calculateFlightTotal();
     document.getElementById("grandTotal").textContent = `$${total}`;
   }
@@ -295,23 +273,20 @@ class FlightBookingSystem {
     return subtotal + vat;
   }
 
-  handleTicketChange = (type, isIncrease) => {
+  handleTicketChange(type, isIncrease) {
     const ticketKey = type === "first" ? "firstClass" : "economy";
     const ticket = this.tickets[ticketKey];
 
     if (isIncrease) {
       ticket.count++;
-      this.animateButton("increase", ticketKey);
     } else if (ticket.count > 0) {
       ticket.count--;
-      this.animateButton("decrease", ticketKey);
     }
 
     this.updateTicketDisplay(ticket);
     this.calculateTotal();
-    this.animateUpdate(ticket.element);
     this.saveToLocalStorage();
-  };
+  }
 
   updateTicketDisplay(ticket) {
     const countElement = document.getElementById(`${ticket.element}Count`);
@@ -322,9 +297,6 @@ class FlightBookingSystem {
       totalElement.textContent = this.formatCurrency(
         ticket.count * ticket.price
       );
-
-      // Update accessibility
-      countElement.setAttribute("aria-valuenow", ticket.count);
     }
   }
 
@@ -334,7 +306,7 @@ class FlightBookingSystem {
       0
     );
 
-    const vat = Math.round(subtotal * 0.1 * 100) / 100; // More precise calculation
+    const vat = Math.round(subtotal * 0.1 * 100) / 100;
     const grandTotal = subtotal + vat;
 
     this.updatePriceDisplay(subtotal, vat, grandTotal);
@@ -361,7 +333,6 @@ class FlightBookingSystem {
     const returnInput = document.getElementById("returnDate");
 
     if (departureInput && returnInput) {
-      // Set minimum date to today
       const today = new Date().toISOString().split("T")[0];
       departureInput.min = today;
       returnInput.min = today;
@@ -389,7 +360,6 @@ class FlightBookingSystem {
     if (bookBtn) {
       bookBtn.disabled = !isValid;
       bookBtn.classList.toggle("btn-disabled", !isValid);
-      bookBtn.setAttribute("aria-disabled", !isValid);
     }
 
     return isValid;
@@ -404,6 +374,12 @@ class FlightBookingSystem {
       this.showError(
         "Please fill in all required fields and select at least one ticket."
       );
+      return;
+    }
+
+    if (window.authSystem && !window.authSystem.isAuthenticated()) {
+      this.showError("Please login to book.");
+      setTimeout(() => (window.location.href = "./login.html"), 2000);
       return;
     }
 
@@ -428,16 +404,14 @@ class FlightBookingSystem {
     };
   }
 
-  processBooking(bookingData) {
-    // Show loading state
+  processBooking(booking) {
     this.setLoadingState(true);
 
-    // Simulate API call
     setTimeout(() => {
       this.setLoadingState(false);
-      this.showBookingSuccess(bookingData);
-      this.saveBooking(bookingData);
-      this.trackBookingEvent("booking_completed", bookingData);
+      this.showBookingSuccess(booking);
+      this.saveBooking(booking);
+      this.trackBookingEvent("booking_completed", booking);
       this.resetForm();
     }, 2000);
   }
@@ -450,103 +424,161 @@ class FlightBookingSystem {
       bookBtn.innerHTML =
         '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
       bookBtn.disabled = true;
-      bookBtn.classList.add("loading");
     } else {
       bookBtn.innerHTML = '<i class="fas fa-plane-departure mr-2"></i>Book Now';
       bookBtn.disabled = false;
-      bookBtn.classList.remove("loading");
     }
   }
 
   showBookingSuccess(bookingData) {
-    // Create success modal
     const modal = document.createElement("div");
     modal.className = "modal modal-open";
     modal.innerHTML = `
-            <div class="modal-box transform transition-all duration-500 scale-95 hover:scale-100 max-w-2xl">
-                <h3 class="font-bold text-2xl text-success mb-4 flex items-center gap-2">
-                    <i class="fas fa-check-circle"></i>
-                    Booking Confirmed! 🎉
-                </h3>
-                <div class="space-y-4 mb-6">
-                    <div class="bg-base-200 p-4 rounded-lg">
-                        <p class="font-semibold text-lg">Booking ID: <span class="text-primary">${
-                          bookingData.bookingId
-                        }</span></p>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <p class="font-semibold">Route</p>
-                            <p>${bookingData.from} → ${bookingData.to}</p>
-                        </div>
-                        <div>
-                            <p class="font-semibold">Departure</p>
-                            <p>${new Date(
-                              bookingData.departure
-                            ).toLocaleDateString()}</p>
-                        </div>
-                        ${
-                          bookingData.return
-                            ? `
-                        <div>
-                            <p class="font-semibold">Return</p>
-                            <p>${new Date(
-                              bookingData.return
-                            ).toLocaleDateString()}</p>
-                        </div>
-                        `
-                            : ""
-                        }
-                        <div>
-                            <p class="font-semibold">Total</p>
-                            <p class="text-lg font-bold text-primary">${
-                              bookingData.total
-                            }</p>
-                        </div>
-                    </div>
-                    
-                    ${
-                      bookingData.flight
-                        ? `
-                    <div class="bg-base-300 p-3 rounded">
-                        <p class="font-semibold">Flight Details</p>
-                        <p>${bookingData.flight.airline} - ${bookingData.flight.flightNumber}</p>
-                        <p>${bookingData.flight.departure} - ${bookingData.flight.arrival}</p>
-                    </div>
-                    `
-                        : ""
-                    }
-                    
-                    <div class="bg-base-200 p-3 rounded">
-                        <p class="font-semibold">Tickets</p>
-                        ${Object.values(bookingData.tickets)
-                          .map((ticket) =>
-                            ticket.count > 0
-                              ? `<p>${ticket.count} × ${ticket.label}</p>`
-                              : ""
-                          )
-                          .join("")}
-                    </div>
-                </div>
-                <div class="modal-action flex gap-2">
-                    <button class="btn btn-primary flex-1" onclick="this.closest('.modal').remove()">
-                        <i class="fas fa-check mr-2"></i>Great!
-                    </button>
-                    <button class="btn btn-outline" onclick="this.closest('.modal').remove(); window.print();">
-                        <i class="fas fa-print mr-2"></i>Print Ticket
-                    </button>
-                </div>
+      <div class="modal-box transform transition-all duration-500 scale-95 hover:scale-100 max-w-2xl">
+        <h3 class="font-bold text-2xl text-success mb-4 flex items-center gap-2">
+          <i class="fas fa-check-circle"></i>
+          Booking Confirmed! 🎉
+        </h3>
+        <div class="space-y-4 mb-6">
+          <div class="bg-base-200 p-4 rounded-lg">
+            <p class="font-semibold text-lg">Booking ID: <span class="text-primary">${
+              bookingData.bookingId
+            }</span></p>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p class="font-semibold">Route</p>
+              <p>${bookingData.from} → ${bookingData.to}</p>
             </div>
-        `;
+            <div>
+              <p class="font-semibold">Departure</p>
+              <p>${new Date(bookingData.departure).toLocaleDateString()}</p>
+            </div>
+            ${
+              bookingData.return
+                ? `
+            <div>
+              <p class="font-semibold">Return</p>
+              <p>${new Date(bookingData.return).toLocaleDateString()}</p>
+            </div>
+            `
+                : ""
+            }
+            <div>
+              <p class="font-semibold">Total</p>
+              <p class="text-lg font-bold text-primary">${bookingData.total}</p>
+            </div>
+          </div>
+          
+          ${
+            bookingData.flight
+              ? `
+          <div class="bg-base-300 p-3 rounded">
+            <p class="font-semibold">Flight Details</p>
+            <p>${bookingData.flight.airline} - ${bookingData.flight.flightNumber}</p>
+            <p>${bookingData.flight.departure} - ${bookingData.flight.arrival}</p>
+          </div>
+          `
+              : ""
+          }
+          
+          <div class="bg-base-200 p-3 rounded">
+            <p class="font-semibold">Tickets</p>
+            ${Object.values(bookingData.tickets)
+              .map((ticket) =>
+                ticket.count > 0
+                  ? `<p>${ticket.count} × ${ticket.label}</p>`
+                  : ""
+              )
+              .join("")}
+          </div>
+        </div>
+        <div class="modal-action flex gap-2">
+          <button class="btn btn-primary flex-1" onclick="this.closest('.modal').remove(); window.bookingSystem.showPaymentModal('${
+            bookingData.bookingId
+          }')">
+            <i class="fas fa-credit-card mr-2"></i>Proceed to Pay
+          </button>
+          <button class="btn btn-outline" onclick="this.closest('.modal').remove(); window.print();">
+            <i class="fas fa-print mr-2"></i>Print Ticket
+          </button>
+        </div>
+      </div>
+    `;
     document.body.appendChild(modal);
+  }
+
+  showPaymentModal(bookingId) {
+    if (!window.authSystem.requireLoginForPayment()) return;
+
+    const modal = document.createElement("div");
+    modal.className = "payment-modal";
+    modal.innerHTML = `
+      <div class="payment-card">
+        <h3 class="font-bold text-2xl text-primary mb-4">Payment Details</h3>
+        <form id="paymentForm" class="space-y-4">
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text font-semibold">Card Number</span>
+            </label>
+            <input type="text" name="cardNumber" placeholder="1234 5678 9012 3456" class="input input-bordered input-primary" required>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-semibold">Expiry Date</span>
+              </label>
+              <input type="text" name="expiry" placeholder="MM/YY" class="input input-bordered input-primary" required>
+            </div>
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-semibold">CVV</span>
+              </label>
+              <input type="text" name="cvv" placeholder="123" class="input input-bordered input-primary" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary w-full">Pay Now</button>
+        </form>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    const paymentForm = modal.querySelector("#paymentForm");
+    paymentForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      this.processPayment(bookingId, modal);
+    });
+  }
+
+  processPayment(bookingId, modal) {
+    // Simulate payment
+    this.showLoading("Processing payment...");
+
+    setTimeout(() => {
+      this.hideLoading();
+      modal.remove();
+      this.showNotification(
+        "Payment successful! Receipt sent to email.",
+        "success"
+      );
+      // Update booking status to paid
+      const bookings = JSON.parse(
+        localStorage.getItem("flightmaster-bookings") || "[]"
+      );
+      const booking = bookings.find((b) => b.bookingId === bookingId);
+      if (booking) {
+        booking.status = "paid";
+        localStorage.setItem("flightmaster-bookings", JSON.stringify(bookings));
+      }
+    }, 3000);
   }
 
   showError(message) {
     if (window.flightMasterApp) {
       window.flightMasterApp.showNotification(message, "error");
     } else {
-      alert(message); // Fallback
+      alert(message);
     }
   }
 
@@ -557,24 +589,21 @@ class FlightBookingSystem {
   }
 
   showLoading(message) {
-    // Create loading overlay
     const overlay = document.createElement("div");
     overlay.className = "loading-overlay";
     overlay.innerHTML = `
-            <div class="bg-base-100 p-6 rounded-lg shadow-xl flex items-center gap-4">
-                <div class="loading-spinner"></div>
-                <span class="text-lg font-semibold">${message}</span>
-            </div>
-        `;
+      <div class="bg-base-100 p-6 rounded-lg shadow-xl flex items-center gap-4">
+        <div class="loading-spinner"></div>
+        <span class="text-lg font-semibold">${message}</span>
+      </div>
+    `;
     overlay.id = "loading-overlay";
     document.body.appendChild(overlay);
   }
 
   hideLoading() {
     const overlay = document.getElementById("loading-overlay");
-    if (overlay) {
-      overlay.remove();
-    }
+    if (overlay) overlay.remove();
   }
 
   generateBookingId() {
@@ -590,7 +619,6 @@ class FlightBookingSystem {
     bookings.push(bookingData);
     localStorage.setItem("flightmaster-bookings", JSON.stringify(bookings));
 
-    // Also save to user's bookings if logged in
     if (window.authSystem && window.authSystem.isAuthenticated()) {
       window.authSystem.addUserBooking(bookingData);
     }
@@ -614,12 +642,10 @@ class FlightBookingSystem {
         this.tickets = saved.tickets;
         this.bookingData = saved.bookingData;
 
-        // Update UI with saved data
         Object.entries(this.tickets).forEach(([key, ticket]) => {
           this.updateTicketDisplay(ticket);
         });
 
-        // Restore form values
         Object.entries(this.bookingData).forEach(([key, value]) => {
           const element = document.getElementById(key);
           if (element && value) element.value = value;
@@ -633,13 +659,11 @@ class FlightBookingSystem {
   }
 
   resetForm() {
-    // Reset tickets to default
     Object.values(this.tickets).forEach((ticket) => {
       ticket.count = 1;
       this.updateTicketDisplay(ticket);
     });
 
-    // Clear form fields
     ["flyingFrom", "flyingTo", "departureDate", "returnDate"].forEach((id) => {
       const element = document.getElementById(id);
       if (element) element.value = "";
@@ -655,7 +679,6 @@ class FlightBookingSystem {
 
     this.selectedFlight = null;
 
-    // Clear flight results
     const resultsContainer = document.getElementById("flightResults");
     if (resultsContainer) {
       resultsContainer.classList.add("hidden");
@@ -663,26 +686,6 @@ class FlightBookingSystem {
 
     this.calculateTotal();
     localStorage.removeItem("flightmaster-draft");
-  }
-
-  animateUpdate(elementId) {
-    const element = document.getElementById(`${elementId}Count`);
-    if (element) {
-      element.classList.add("scale-125", "text-primary");
-      setTimeout(() => {
-        element.classList.remove("scale-125", "text-primary");
-      }, 300);
-    }
-  }
-
-  animateButton(action, type) {
-    const button = document.querySelector(
-      `.ticket-${action}[data-type="${type}"]`
-    );
-    if (button) {
-      button.classList.add("btn-active");
-      setTimeout(() => button.classList.remove("btn-active"), 150);
-    }
   }
 
   formatCurrency(amount) {
@@ -694,20 +697,16 @@ class FlightBookingSystem {
     }).format(amount);
   }
 
-  // Advanced analytics
   trackBookingEvent(event, data) {
-    // Track booking events for analytics
     const analyticsData = {
       event,
       ...data,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
-      screenResolution: `${screen.width}x${screen.height}`,
     };
 
     console.log("Analytics Event:", analyticsData);
 
-    // Save to localStorage for demo purposes
     const events = JSON.parse(
       localStorage.getItem("flightmaster-analytics") || "[]"
     );
@@ -715,7 +714,6 @@ class FlightBookingSystem {
     localStorage.setItem("flightmaster-analytics", JSON.stringify(events));
   }
 
-  // Get user's booking history
   getBookingHistory() {
     const bookings = JSON.parse(
       localStorage.getItem("flightmaster-bookings") || "[]"
@@ -728,7 +726,6 @@ class FlightBookingSystem {
     );
   }
 
-  // Cancel booking
   cancelBooking(bookingId) {
     const bookings = JSON.parse(
       localStorage.getItem("flightmaster-bookings") || "[]"
