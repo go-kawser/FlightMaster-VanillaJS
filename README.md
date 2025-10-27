@@ -105,8 +105,4 @@ github Live Link: https://go-kawser.github.io/FlightMaster-VanillaJS/
 - [`FlightBookingSystem`](js/booking.js) - Booking workflows, search, and local persistence. See [js/booking.js](js/booking.js).
 - [`ThemeManager`](js/theme.js) - Advanced theme handling with system preference sync. See [js/theme.js](js/theme.js).
 
-Enjoy showcasing FlightMaster Pro - it's designed to impress with clear architecture, polished UX, and ready-to-extend modules.
-
-```
-
-```
+**Enjoy showcasing FlightMaster Pro --> it's designed to impress with clear architecture, polished UX, and ready-to-extend modules.**
