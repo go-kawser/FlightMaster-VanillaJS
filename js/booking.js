@@ -1,4 +1,5 @@
 // Flight Booking System
+// ----------------------------------------->
 class FlightBookingSystem {
   constructor() {
     this.tickets = {
@@ -552,7 +553,6 @@ class FlightBookingSystem {
   }
 
   processPayment(bookingId, modal) {
-    // Simulate payment
     this.showLoading("Processing payment...");
 
     setTimeout(() => {
@@ -562,7 +562,7 @@ class FlightBookingSystem {
         "Payment successful! Receipt sent to email.",
         "success"
       );
-      // Update booking status to paid
+
       const bookings = JSON.parse(
         localStorage.getItem("flightmaster-bookings") || "[]"
       );
@@ -745,7 +745,6 @@ class FlightBookingSystem {
   }
 }
 
-// Initialize booking system
 document.addEventListener("DOMContentLoaded", () => {
   window.bookingSystem = new FlightBookingSystem();
 });

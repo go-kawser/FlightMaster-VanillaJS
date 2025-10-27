@@ -1,4 +1,5 @@
-// Main Application Initialization
+// Main Application
+// ---------------------------------------->
 class FlightMasterApp {
   constructor() {
     this.isInitialized = false;
@@ -345,7 +346,6 @@ class FlightMasterApp {
   }
 }
 
-// Initialize the application
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     window.flightMasterApp = new FlightMasterApp();

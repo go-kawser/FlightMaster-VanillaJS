@@ -1,4 +1,5 @@
-// Theme Management System
+// Theme Management
+// --------------------------------------------->
 class ThemeManager {
   constructor() {
     this.themes = ["light", "dark"];
@@ -159,7 +160,6 @@ class ThemeManager {
   }
 }
 
-// Initialize theme manager
 document.addEventListener("DOMContentLoaded", () => {
   window.themeManager = new ThemeManager();
 });

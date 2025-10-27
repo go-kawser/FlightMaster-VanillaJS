@@ -1,4 +1,4 @@
-/* Enhanced Custom Styles for FlightMaster Pro */
+/* CSS START */
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 
 :root {
@@ -22,7 +22,7 @@
   font-family: "DM Sans", sans-serif;
 }
 
-/* MEGA NAVBAR STYLES =====  */
+/* MEGA NAVBAR STYLES */
 .navbar {
   min-height: var(--navbar-height);
   backdrop-filter: blur(8px);
@@ -63,7 +63,7 @@
   height: 2rem;
 }
 
-/* Glass Morphism for Dark Mode */
+/* Glass Morphism For Dark Mode */
 [data-theme="dark"] .card,
 [data-theme="dark"] .btn {
   background: rgba(31, 41, 55, 0.8);
@@ -71,7 +71,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ===== ANIMATIONS ===== */
+/* ANIMATIONS */
 @keyframes float {
   0%,
   100% {
@@ -101,7 +101,7 @@
   animation: fadeIn 0.6s ease-out forwards;
 }
 
-/* ===== BUTTON ENHANCEMENTS ===== */
+/* BUTTON */
 .btn-hover-effect {
   position: relative;
   overflow: hidden;
@@ -129,7 +129,7 @@
   left: 100%;
 }
 
-/* ===== FORM ENHANCEMENTS ===== */
+/* FORM */
 .input:focus,
 .select:focus,
 .textarea:focus {
@@ -139,7 +139,7 @@
   box-shadow: 0 0 0 3px rgba(var(--primary), 0.1);
 }
 
-/* ===== CUSTOM SCROLLBAR ===== */
+/* CUSTOM SCROLLBAR */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -158,7 +158,7 @@
   background: darken(var(--primary), 10%);
 }
 
-/* ===== LOADING STATES ===== */
+/* LOADING STATES */
 .loading {
   opacity: 0.7;
   pointer-events: none;
@@ -179,12 +179,12 @@
   animation: spin 1s linear infinite;
 }
 
-/* ===== GRADIENT BACKGROUNDS ===== */
+/* GRADIENT */
 .gradient-primary {
   background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
 }
 
-/* ===== CARD ENHANCEMENTS ===== */
+/* CARD */
 .card-hover {
   transition: all 0.3s ease;
   border: 2px solid transparent;
@@ -197,7 +197,7 @@
   box-shadow: var(--shadow-xl);
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+/* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
   .navbar {
     padding-left: 1rem;
@@ -210,7 +210,7 @@
   }
 }
 
-/* ===== DARK THEME SPECIFIC STYLES ===== */
+/* DARK THEME */
 [data-theme="dark"] {
   --b1: #1f2937;
   --b2: #374151;
@@ -222,7 +222,7 @@
   }
 }
 
-/* ===== LIGHT THEME SPECIFIC STYLES ===== */
+/* LIGHT THEME */
 [data-theme="light"] {
   --b1: #ffffff;
   --b2: #f3f4f6;
@@ -231,7 +231,6 @@
   --a: #f59e0b;
 }
 
-/* styles for professional look */
 .hero {
   background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
   border-radius: var(--border-radius);
@@ -251,7 +250,7 @@
   background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
 }
 
-/* Payment Modal Styles */
+/* Payment */
 .payment-modal {
   position: fixed;
   top: 0;
@@ -283,7 +282,6 @@
   margin-bottom: 1rem;
 }
 
-/* add some professional touches */
 * {
   transition: color 0.3s ease, background-color 0.3s ease;
 }
@@ -293,4 +291,4 @@ body {
   font-size: 1rem;
 }
 
-/* End CSS */
+/* CSS END */

@@ -56,7 +56,6 @@
               FlightMaster <span class="text-accent">Pro</span>
             </span>
           </a>
-          <!-- Hamburger for Mobile -->
           <button
             class="btn btn-ghost lg:hidden ml-4"
             onclick="toggleMobileMenu()"
@@ -153,9 +152,7 @@
           </ul>
         </div>
 
-        <!-- Right Section -->
         <div class="navbar-end gap-2 flex items-center">
-          <!-- Theme Toggle:- Easy Mode: Light/Dark Switch -->
           <button
             id="theme-toggle"
             class="btn btn-ghost btn-sm btn-circle"
@@ -164,7 +161,6 @@
             <i class="fas fa-sun text-base"></i>
           </button>
 
-          <!-- Auth Buttons or User Profile -->
           <div class="auth-buttons flex items-center gap-2">
             <a
               href="./login.html"
@@ -388,8 +384,8 @@
     <footer class="footer footer-center bg-base-200 text-base-content p-4 mt-8">
       <div>
         <p class="text-sm">
-          © 2025 FlightMaster Pro. All rights reserved. | Secure Registration
-          System
+          @ 2025 FlightMaster Pro. All rights reserved. | Secure Registration
+          System.
         </p>
       </div>
     </footer>
@@ -414,7 +410,6 @@
             : "fas fa-moon text-base";
       }
 
-      // Initial theme icon setup
       const savedTheme = localStorage.getItem("flightmaster-theme") || "light";
       document.documentElement.setAttribute("data-theme", savedTheme);
       const initialIcon = document.querySelector("#theme-toggle i");

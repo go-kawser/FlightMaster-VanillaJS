@@ -56,7 +56,6 @@
               FlightMaster <span class="text-accent">Pro</span>
             </span>
           </a>
-          <!-- Hamburger for Mobile -->
           <button
             class="btn btn-ghost lg:hidden ml-4"
             onclick="toggleMobileMenu()"
@@ -155,7 +154,6 @@
 
         <!-- Right Section -->
         <div class="navbar-end gap-2 flex items-center">
-          <!-- Theme Toggle -->
           <button
             id="theme-toggle"
             class="btn btn-ghost btn-sm btn-circle"
@@ -163,8 +161,6 @@
           >
             <i class="fas fa-sun text-base"></i>
           </button>
-
-          <!-- Auth Buttons or User Profile -->
           <div class="auth-buttons flex items-center gap-2">
             <a
               href="./login.html"
@@ -403,7 +399,7 @@
                 <div>
                   <h3 class="font-bold text-lg mb-1">Safe Travel</h3>
                   <p class="text-sm opacity-70">
-                    Priority safety measures & protocols
+                    Priority safety measures and protocols
                   </p>
                 </div>
               </div>
@@ -447,7 +443,6 @@
         </div>
       </div>
 
-      <!-- Featured Destinations -->
       <section class="mb-16">
         <h2 class="text-4xl font-bebas text-center mb-12 text-primary">
           POPULAR DESTINATIONS
@@ -519,7 +514,7 @@
       </section>
     </main>
 
-    <!-- Professional Footer -->
+    <!-- Footer -->
     <footer
       class="footer footer-center bg-base-200 text-base-content rounded p-10 mt-16"
     >
@@ -581,7 +576,7 @@
               </li>
               <li class="flex items-center gap-2">
                 <i class="fas fa-envelope text-primary"></i>
-                <span>support@flightmaster.com</span>
+                <span>abu.kayser.official@gmail.com</span>
               </li>
               <li class="flex items-center gap-2">
                 <i class="fas fa-clock text-primary"></i>
@@ -592,8 +587,8 @@
         </div>
         <div class="border-t border-base-300 mt-8 pt-8 text-center">
           <p class="text-sm opacity-70">
-            © 2025 FlightMaster Pro. All rights reserved. | Designed with ❤️ for
-            travelers worldwide
+            @ 2025 FlightMaster Pro. All rights reserved. | Designed with Love
+            for travelers worldwide.
           </p>
         </div>
       </div>
@@ -601,7 +596,7 @@
 
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <!-- JavaScript Modules -->
+    <!-- JavaScript -->
     <script type="module" src="./js/main.js"></script>
     <script type="module" src="./js/booking.js"></script>
     <script type="module" src="./js/theme.js"></script>
@@ -623,7 +618,6 @@
             : "fas fa-moon text-base";
       }
 
-      // Initial theme icon setup
       const savedTheme = localStorage.getItem("flightmaster-theme") || "light";
       document.documentElement.setAttribute("data-theme", savedTheme);
       const initialIcon = document.querySelector("#theme-toggle i");
