@@ -1,4 +1,5 @@
-// Advanced Authentication System
+// Advanced Authentication System Here:
+// ----------------------------------------->
 class AuthSystem {
   constructor() {
     this.users = JSON.parse(localStorage.getItem("flightmaster-users") || "[]");
@@ -17,7 +18,6 @@ class AuthSystem {
   }
 
   bindAuthEvents() {
-    // Global auth state listener
     window.addEventListener("storage", (e) => {
       if (e.key === "flightmaster-current-user") {
         this.currentUser = JSON.parse(e.newValue);
@@ -25,7 +25,7 @@ class AuthSystem {
       }
     });
 
-    // Auth form submissions
+    // Auth Submission From
     const loginForm = document.getElementById("loginForm");
     const signupForm = document.getElementById("signupForm");
 
@@ -37,7 +37,7 @@ class AuthSystem {
       signupForm.addEventListener("submit", (e) => this.handleSignup(e));
     }
 
-    // Social login buttons
+    // Social Login Button
     document.addEventListener("click", (e) => {
       if (e.target.closest(".social-login")) {
         const button = e.target.closest(".social-login");
@@ -46,7 +46,7 @@ class AuthSystem {
       }
     });
 
-    // Logout button
+    // Logout Button
     document.addEventListener("click", (e) => {
       if (e.target.closest('[onclick="logout()"]')) {
         this.logout();
@@ -54,17 +54,14 @@ class AuthSystem {
     });
   }
 
+  // Validation
   setupAuthForms() {
-    // Real-time form validation
     this.setupRealTimeValidation();
 
-    // Password strength meter
+    // Password
     this.setupPasswordStrength();
 
-    // Input formatting
     this.setupInputFormatting();
-
-    // Form auto-save
     this.setupFormAutoSave();
   }
 
@@ -608,8 +605,6 @@ class AuthSystem {
     }
     return false;
   }
-
-  // New: Check for payment (integrates with booking)
   requireLoginForPayment() {
     if (!this.isAuthenticated()) {
       this.showFormErrors(["Please login to proceed with payment"]);
@@ -620,7 +615,6 @@ class AuthSystem {
   }
 }
 
-// Initialize auth system
 document.addEventListener("DOMContentLoaded", () => {
   window.authSystem = new AuthSystem();
 });
