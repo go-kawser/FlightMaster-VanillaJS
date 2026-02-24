@@ -1,20 +1,14 @@
 # FlightMaster Pro - Vanilla JavaScript SPA for Flight Booking (Tailwind, DaisyUI, Local-first)
 
-## Plain docs links (use these in a README “Docs & links” section)
+## Plain docs links
 
 - HTML (MDN) docs: [https://developer.mozilla.org/en-US/docs/Web/HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
 - CSS (MDN) docs: [https://developer.mozilla.org/en-US/docs/Web/CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
 - Tailwind CSS docs: [https://tailwindcss.com/docs/](https://tailwindcss.com/docs/)
 - PostCSS docs / postcss.config: [https://postcss.org/](https://postcss.org/)
 - daisyUI docs: [https://daisyui.com/](https://daisyui.com/)
-- Bootstrap docs: [https://getbootstrap.com/](https://getbootstrap.com/)
 - Google Fonts docs: [https://fonts.google.com/](https://fonts.google.com/)
 - Font Awesome docs: [https://fontawesome.com/](https://fontawesome.com/)
-- Heroicons docs: [https://heroicons.com/](https://heroicons.com/)
-- Node.js docs: [https://nodejs.org/](https://nodejs.org/)
-- Express docs: [https://expressjs.com/](https://expressjs.com/)
-- React docs: https://react.dev/
-- Next.js docs: https://nextjs.org/docs
 - JavaScript (MDN) docs: [https://developer.mozilla.org/en-US/docs/Web/JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - ECMAScript (spec, ECMA-262) docs: [https://www.ecma-international.org/publications-and-standards/standards/ecma-262/](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/)
 
