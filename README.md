@@ -16,18 +16,31 @@
 </p>
 
 <p align="center">
-  <a href="https://md-abu-kayser.github.io/flightmaster-vanillajs/">
-    <img src="https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-2EA44F?style=for-the-badge&logo=github" alt="Live Demo" />
+
+  <a href="https://md-abu-kayser.github.io/flightmaster-vanillajs/" target="_blank">
+    <img src="https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-2EA44F?style=for-the-badge&logo=github&logoColor=white" alt="Live Demo" />
   </a>
-  <a href="https://github.com/md-abu-kayser/flightmaster-vanillajs">
-    <img src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github" alt="GitHub Repository" />
+
+  <a href="https://github.com/md-abu-kayser/flightmaster-vanillajs" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repository" />
   </a>
+
   <a href="./LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-2563EB?style=for-the-badge" alt="MIT License" />
   </a>
-  <img src="https://img.shields.io/badge/JavaScript-ES2020%2B-F7DF1E?style=for-the-badge&logo=javascript&logoColor=111827" alt="JavaScript" />
-  <img src="https://img.shields.io/badge/Tailwind%20CSS-Utility-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
-  <img src="https://img.shields.io/badge/daisyUI-Components-5A0EF8?style=for-the-badge" alt="daisyUI" />
+
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
+    <img src="https://img.shields.io/badge/JavaScript-ES2020%2B-F7DF1E?style=for-the-badge&logo=javascript&logoColor=111827" alt="JavaScript ES2020+ Documentation" />
+  </a>
+
+  <a href="https://tailwindcss.com/docs" target="_blank">
+    <img src="https://img.shields.io/badge/Tailwind%20CSS-Utility-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS Documentation" />
+  </a>
+
+  <a href="https://daisyui.com/docs/" target="_blank">
+    <img src="https://img.shields.io/badge/daisyUI-Components-5A0EF8?style=for-the-badge" alt="daisyUI Documentation" />
+  </a>
+
 </p>
 
 <p align="center">
